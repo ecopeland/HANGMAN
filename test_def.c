@@ -70,6 +70,7 @@ Status test_init_c_string_returns_nonNULL(char* buffer, int length)
   if(hString == NULL){
     my_string_destroy(&hString);
     strncpy(buffer, "test_init_c_string_returns_nonNULL\n"
+      "my_string_init_c_string returns NULL", length);
     return FAILURE;
   }
   else {
