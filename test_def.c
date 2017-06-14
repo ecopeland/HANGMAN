@@ -223,6 +223,11 @@ Status test_string_compare_returns_positive(char* buffer, int length)
 //Status test_extraction_with_invalid_hString(){}
 Status test_string_extraction_returns_SUCCESS(char* buffer, int length)
 {
+  MY_STRING hString = NULL;
+  hString = my_string_init_default();
+  FILE* fp;
+  fp = fopen("dictionary.txt", "r");
+  hString = my_string_extraction()
     return SUCCESS;
 }
 
@@ -251,29 +256,107 @@ Status test_string_pop_back_returns_SUCCESS(char* buffer, int length)
 //Status test_string_at_with_invalid_hString(){}
 Status test_string_at_returns_nonNULL(char* buffer, int length)
 {
-    return SUCCESS;
+  MY_STRING hString = NULL;
+  char* temp;
+  int i, size;
+  hString = my_string_init_c_string("testing... 1 2 3");
+  size = my_string_get_size(hString);
+  for(i = 0; i < size; i++){
+    temp = my_string_at(hString, i);
+    if(temp == NULL){
+      my_string_destroy(&hString);
+      strncpy(buffer, "test_string_at_returns_nonNULL\n"
+        "my_string_at returns NULL", length);
+      return FAILURE;
+    }
+  }
+  my_string_destroy(&hString);
+  strncpy(buffer, "\test_string_at_returns_nonNULL\n", length);
+  return SUCCESS;
 }
 
 Status test_string_at_with_index_out_of_bounds_returns_NULL(char* buffer, int length)
 {
+  MY_STRING hString = NULL;
+  char* temp;
+  int size;
+  hString = my_string_init_c_string("testing... 1 2 3");
+  size = my_string_get_size(hString);
+  if((temp = my_string_at(hString, size + 1)) != NULL){
+    my_string_destroy(&hString);
+    strncpy(buffer, "test_string_at_with_index_out_of_bounds_returns_NULL\n"
+      "my_string_at does not return NULL with index out bounds", length);
+    return FAILURE;
+  }
+  else{
+    my_string_destroy(&hString);
+    temp = NULL;
+    strncpy(buffer, "\test_my_string_at_with_index_out_of_bounds\n", length);
     return SUCCESS;
+  }
 }
 
 //test my_string_c_str//
 //Status test_string_c_str_with_invalid_hString(){}
 Status test_string_c_str_returns_nonNULL(char* buffer, int length)
 {
+  MY_STRING hString = NULL;
+  char* temp;
+  hString = my_string_init_c_string("testing... 1 2 3");
+  if((temp = my_string_c_str(hString)) == NULL){
+    my_string_destroy(&hString);
+    strncpy(buffer, "test_string_c_str_returns_nonNULL\n"
+      "my_string_c_str returns NULL", length);
+    return FAILURE;
+  }
+  else{
+    my_string_destroy(&hString);
+    temp = NULL;
+    strncpy(buffer, "\test_string_c_str_returns_nonNULL\n", length);
     return SUCCESS;
+  }
 }
 
 Status test_string_c_str_adds_capacity_for_NULL_terminator(char* buffer, int length)
 {
+  MY_STRING hString = NULL;
+  int capacity, new_capacity;
+  hString = my_string_init_c_string("testing... 1 2 3");
+  capacity = my_string_get_capacity(hString);
+  my_string_c_str(hString);
+  new_capacity = my_string_get_capacity(hString);
+  if(new_capacity <= capacity){
+    my_string_destroy(&hString);
+    strncpy(buffer, "test_string_c_str_adds_capacity_for_NULL_terminator\n"
+      "my_string_c_str does not add capacity for NULL terminator", length);
+    return FAILURE;
+  }
+  else{
+    my_string_destroy(&hString);
+    strncpy(buffer, "\test_string_c_str_adds_capacity_for_NULL_terminator\n", length);
     return SUCCESS;
+  }
 }
 
 Status test_string_c_str_does_not_alter_string_size(char* buffer, int length)
 {
+  MY_STRING hString = NULL;
+  int size, new_size;
+  hString = my_string_init_c_string("testing... 1 2 3");
+  size = my_string_get_size(hString);
+  my_string_c_str(hString);
+  new_size = my_string_get_size(hString);
+  if(new_size != size){
+    my_string_destroy(&hString);
+    strncpy(buffer, "test_string_c_str_does_not_alter_string_size\n"
+      "my_string_c_str alters string size", length);
+    return FAILURE;
+  }
+  else{
+    my_string_destroy(&hString);
+    strncpy(buffer, "\test_string_c_str_does_not_alter_string_size\n", length);
     return SUCCESS;
+  }
 }
 
 //test my_string_concat//
@@ -284,9 +367,31 @@ Status test_string_concat_returns_SUCCESS(char* buffer, int length)
     return SUCCESS;
 }
 
+
 Status test_string_concat_does_not_alter_hAppend(char* buffer, int length)
 {
+  MY_STRING hString1 = NULL;
+  MY_STRING hString2 = NULL;
+  MY_STRING old_hString2 = NULL;
+  hString1 = my_string_init_c_string("testing... 1 2 3");
+  hString2 = my_string_init_c_string(" 4 5 6 7 8 9 10");
+  old_hString2 = hString2;
+  my_string_concat(hString1, hString2);
+  if(old_hString2 != hString2){
+    my_string_destroy(&hString1);
+    my_string_destroy(&hString2);
+//    my_string_destroy(&old_hString2);
+    strncpy(buffer, "test_string_concat_does_not_alter_hAppend\n"
+      "my_string_concat alters hAppend", length);
+    return FAILURE;
+  }
+  else{
+    my_string_destroy(&hString1);
+    my_string_destroy(&hString2);
+//    my_string_destroy(&old_hString2);
+    strncpy(buffer, "\test_string_concat_does_not_alter_hAppend\n", length);
     return SUCCESS;
+  }
 }
 
 Status test_string_concat_does_not_alter_hResult_or_hAppend_on_FAILURE(char* buffer, int length)
@@ -299,12 +404,36 @@ Status test_string_concat_does_not_alter_hResult_or_hAppend_on_FAILURE(char* buf
 
 Status test_string_empty_returns_TRUE(char* buffer, int length)
 {
+  MY_STRING hString = NULL;
+  hString = my_string_init_default();
+  if(my_string_empty(hString) == FALSE){
+    my_string_destroy(&hString);
+    strncpy(buffer, "test_string_empty_returns_TRUE\n"
+      "my_string_empty does not return TRUE", length);
+    return FAILURE;
+  }
+  else{
+    my_string_destroy(&hString);
+    strncpy(buffer, "\test_string_empty_returns_TRUE\n", length);
     return SUCCESS;
+  }
 }
 
 Status test_string_empty_returns_FALSE(char* buffer, int length)
 {
+  MY_STRING hString = NULL;
+  hString = my_string_init_c_string("testing... 1 2 3");
+  if(my_string_empty(hString) == TRUE){
+    my_string_destroy(hString);
+    strncpy(buffer, "test_string_empty_returns_FALSE\n"
+      "my_string_empty does not return FALSE", length);
+    return FAILURE;
+  }
+  else{
+    my_string_destroy(&hString);
+    strncpy(buffer, "\test_string_empty_returns_FALSE\n", length);
     return SUCCESS;
+  }
 }
 
 //test my_string_destroy//
@@ -316,5 +445,18 @@ Status test_string_destroy_free_object_memory(char* buffer, int length)
 
 Status test_string_destroy_sets_phMy_string_to_NULL(char* buffer, int length)
 {
+  MY_STRING hString = NULL;
+  hString = my_string_init_c_string("testing... 1 2 3");
+  MY_STRING phString = &hString;
+  my_string_destroy(phString);
+  if(phString != NULL){
+    phString = NULL;
+    strncpy(buffer, "test_string_destroy_sets_phMy_string_to_NULL\n"
+      "my_string_destroy does not set phMy_string to NULL", length);
+    return FAILURE;
+  }
+  else{
+    strncpy(buffer, "\test_string_destroy_sets_phMy_string_to_NULL\n", length);
     return SUCCESS;
+  }
 }

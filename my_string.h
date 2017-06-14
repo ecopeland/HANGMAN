@@ -112,7 +112,7 @@ char* my_string_at(MY_STRING hMy_string, int index);
 // the 'e' is NULL in the internal character array.
 char* my_string_c_str(MY_STRING hMy_string);
 
-//Precondition: hResuly and hAppend are handles to valid My_string objects.
+//Precondition: hResult and hAppend are handles to valid My_string objects.
 //Postcondition: hResult is the handle of a string that contains the original
 // hResult object followed by the hAppend object concatenated together. This
 // function should guarantee no change to the hAppend object and return
@@ -129,7 +129,7 @@ Boolean my_string_empty(MY_STRING hMy_string);
 
 //Precondition: phMy_string holds the address of a valid handle to a MY_STRING
 // object.
-//Postcondition: The memory used for the MY_STRING object ahs to be reclaimed by
+//Postcondition: The memory used for the MY_STRING object has to be reclaimed by
 // the system and the handle referred to by the pointer phMy_string has been set
 // to NULL.
 void my_string_destroy(MY_STRING* phMy_string);

@@ -48,7 +48,26 @@ int main(int argc, char* argv[])
  Status (*tests[])(char*, int) =
  {
  test_init_default_returns_nonNULL,
- test_get_size_on_init_default_returns_0
+ test_get_size_on_init_default_returns_0,
+ test_get_capacity_on_init_default_returns_7,
+ test_init_c_string_returns_nonNULL,
+ test_get_capacity_on_init_c_string,
+ test_get_size_on_init_c_string,
+ test_capacity_one_greater_than_size_on_init_c_string,
+ test_string_compare_returns_negative,
+ test_string_compare_returns_0,
+ test_string_compare_returns_positive,
+
+ test_string_at_returns_nonNULL,
+ test_string_at_with_index_out_of_bounds_returns_NULL,
+ test_string_c_str_returns_nonNULL,
+ test_string_c_str_adds_capacity_for_NULL_terminator,
+ test_string_c_str_does_not_alter_string_size,
+
+ test_string_concat_does_not_alter_hAppend,
+ test_string_empty_returns_TRUE,
+ test_string_empty_returns_FALSE,
+ test_string_destroy_sets_phMy_string_to_NULL
  };
  int number_of_functions = sizeof(tests) / sizeof(tests[0]);
  int i;
