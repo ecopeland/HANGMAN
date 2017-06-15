@@ -225,10 +225,21 @@ Status test_string_extraction_returns_SUCCESS(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_default();
+  Status status;
   FILE* fp;
   fp = fopen("dictionary.txt", "r");
-  hString = my_string_extraction()
-    return SUCCESS;
+  status = my_string_extraction(hString, fp);
+  if(status != SUCCESS){
+	  my_string_destroy(hString);
+	  strncpy(buffer, "test_string_extraction_returns_SUCCESS\n"
+	  "my_string_extraction does not return SUCCESS", length);
+  }
+  else{
+	  my_string_destroy(hString);
+	  strncpy(buffer, "\test_string_extraction_returns_SUCCESS\n", length);
+  }
+  fclose(fp);
+  return status;
 }
 
 //test my_string_insertion//
