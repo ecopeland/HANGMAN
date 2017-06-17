@@ -375,5 +375,6 @@ void my_string_destroy(MY_STRING* phMy_string)
        free(pMy_string->data);
        free(pMy_string);
        *phMy_string = NULL;
+	   phMy_string = NULL;
     }
 }

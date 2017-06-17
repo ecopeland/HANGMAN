@@ -202,7 +202,7 @@ Status test_string_compare_returns_positive(char* buffer, int length)
   Status status;
   hLeft_string = my_string_init_c_string("test");
   hRight_string = my_string_init_c_string("t");
-  if(my_string_compare(hLeft_string, hRight_string) > 0){
+  if(my_string_compare(hLeft_string, hRight_string) <= 0){
     status = FAILURE;
     printf("Expected integer greater than zero but got %d\n",
      my_string_compare(hLeft_string, hRight_string));
@@ -328,15 +328,16 @@ Status test_string_c_str_returns_nonNULL(char* buffer, int length)
   }
 }
 
+//check if null terminator at my_string_at(hsize+1)
 Status test_string_c_str_adds_capacity_for_NULL_terminator(char* buffer, int length)
 {
   MY_STRING hString = NULL;
-  int capacity, new_capacity;
+  int capacity, size;
   hString = my_string_init_c_string("testing... 1 2 3");
   capacity = my_string_get_capacity(hString);
+  size = my_string_get_size(hString);
   my_string_c_str(hString);
-  new_capacity = my_string_get_capacity(hString);
-  if(new_capacity <= capacity){
+  if(capacity < (size + 1) || my_string_at(hString, size + 1) != '\0'){
     my_string_destroy(&hString);
     strncpy(buffer, "test_string_c_str_adds_capacity_for_NULL_terminator\n"
       "my_string_c_str does not add capacity for NULL terminator", length);
@@ -458,10 +459,9 @@ Status test_string_destroy_sets_phMy_string_to_NULL(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_c_string("testing... 1 2 3");
-  MY_STRING phString = &hString;
-  my_string_destroy(phString);
-  if(phString != NULL){
-    phString = NULL;
+  my_string_destroy(&hString);
+  if(hString != NULL){
+    hString = NULL;
     strncpy(buffer, "test_string_destroy_sets_phMy_string_to_NULL\n"
       "my_string_destroy does not set phMy_string to NULL", length);
     return FAILURE;
