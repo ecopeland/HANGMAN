@@ -36,30 +36,30 @@ Status test_string_compare_returns_positive(char* buffer, int length);
 //Status test_string_insertion_returns_SUCCESS(char* buffer, int length);
 
 //test my_string_push_back//
-//Status test_string_push_back_with_invalid_hString(){}
+Status test_string_push_back_with_invalid_hString_returns_FAILURE(char* buffer, int length);
 Status test_string_push_back_returns_SUCCESS(char* buffer, int length);
 
 //test my_string_pop_back//
-//Status test_string_pop_back_with_invalid_hString(){}
+Status test_string_pop_back_with_invalid_hString_returns_FAILURE(char* buffer, int length);
 Status test_string_pop_back_returns_SUCCESS(char* buffer, int length);
 Status test_string_pop_back_returns_FAILURE_if_string_empty(char* buffer, int length);
 
 //test my_string_at//
-//Status test_string_at_with_invalid_hString(){}
+Status test_string_at_with_invalid_hString_returns_NULL(char* buffer, int length);
 Status test_string_at_returns_nonNULL(char* buffer, int length);
 Status test_string_at_with_index_out_of_bounds_returns_NULL(char* buffer, int length);
 
 //test my_string_c_str//
-//Status test_string_c_str_with_invalid_hString();
+Status test_string_c_str_with_invalid_hString_returns_NULL(char* buffer, int length);
 Status test_string_c_str_returns_nonNULL(char* buffer, int length);
 Status test_string_c_str_adds_capacity_for_NULL_terminator(char* buffer, int length);
 Status test_string_c_str_does_not_alter_string_size(char* buffer, int length);
 
 //test my_string_concat//
-//Status test_string_concat_with_invalid_hResult(){}
-//Status test_string_concat_with_invalid_hAppend(){}
+Status test_string_concat_with_invalid_hResult_returns_FAILURE(char* buffer, int length);
+Status test_string_concat_with_invalid_hAppend_returns_FAILURE(char* buffer, int length);
 Status test_string_concat_returns_SUCCESS(char* buffer, int length);
-Status test_string_concat_does_not_alter_hAppend(char* buffer, int length);
+//Status test_string_concat_does_not_alter_hAppend(char* buffer, int length);
 Status test_string_concat_does_not_alter_hResult_or_hAppend_on_FAILURE(char* buffer, int length);
 
 //test my_string_empty//

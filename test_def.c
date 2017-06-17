@@ -233,7 +233,6 @@ Status test_string_compare_returns_positive(char* buffer, int length)
 
 //test my_string_extraction//
 //Status test_extraction_with_invalid_hString(){}
-
 /*
 Status test_string_extraction_returns_SUCCESS(char* buffer, int length)
 {
@@ -255,9 +254,11 @@ Status test_string_extraction_returns_SUCCESS(char* buffer, int length)
   }
   fclose(fp);
 }
+*/
 
 //test my_string_insertion//
 //Status test_my_string_insertion_with_invalid_hString(){}
+/*
 Status test_string_insertion_returns_SUCCESS(char* buffer, int length)
 {
   MY_STRING hString = NULL;
@@ -282,7 +283,20 @@ Status test_string_insertion_returns_SUCCESS(char* buffer, int length)
 */
 
 //test my_string_push_back//
-//Status test_string_push_back_with_invalid_hString(){}
+Status test_string_push_back_with_invalid_hString_returns_FAILURE(char* buffer, int length)
+{
+	MY_STRING hString = NULL;
+	if(my_string_push_back(hString, ' ') != FAILURE){
+		strncpy(buffer, "test_string_push_back_with_invalid_hString\n"
+		"my_string_push_back does not return FAILURE", length);
+		return FAILURE;
+	}
+	else{
+		strncpy(buffer, "\test_string_push_back_with_invalid_hString\n", length);
+		return SUCCESS;
+	}
+}
+
 Status test_string_push_back_returns_SUCCESS(char* buffer, int length)
 {
     MY_STRING hString = NULL;
@@ -301,7 +315,20 @@ Status test_string_push_back_returns_SUCCESS(char* buffer, int length)
 }
 
 //test my_string_pop_back//
-//Status test_string_pop_back_with_invalid_hString(){}
+Status test_string_pop_back_with_invalid_hString_returns_FAILURE(char* buffer, int length)
+{
+	MY_STRING hString = NULL;
+	if(my_string_pop_back(hString) != FAILURE){
+		strncpy(buffer, "test_string_pop_back_with_invalid_hString\n"
+		"my_string_pop_back does not return FAILURE", length);
+		return FAILURE;
+	}
+	else{
+		strncpy(buffer, "\test_string_pop_back_with_invalid_hString\n", length);
+		return SUCCESS;
+	}
+}
+
 Status test_string_pop_back_returns_SUCCESS(char* buffer, int length)
 {
     MY_STRING hString = NULL;
@@ -337,7 +364,20 @@ Status test_string_pop_back_returns_FAILURE_if_string_empty(char* buffer, int le
 }
 
 //test my_string_at//
-//Status test_string_at_with_invalid_hString(){}
+Status test_string_at_with_invalid_hString_returns_NULL(char* buffer, int length)
+{
+	MY_STRING hString = NULL;
+	if(my_string_at(hString, 1) != FAILURE){
+		strncpy(buffer, "test_string_at_with_invalid_hString_returns_NULL\n"
+		"my_string_at does not return NULL", length);
+		return FAILURE;
+	}
+	else{
+		strncpy(buffer, "\test_string_at_with_invalid_hString_returns_NULL\n", length);
+		return SUCCESS;
+	}
+}
+
 Status test_string_at_returns_nonNULL(char* buffer, int length)
 {
   MY_STRING hString = NULL;
@@ -381,7 +421,20 @@ Status test_string_at_with_index_out_of_bounds_returns_NULL(char* buffer, int le
 }
 
 //test my_string_c_str//
-//Status test_string_c_str_with_invalid_hString(){}
+Status test_string_c_str_with_invalid_hString_returns_NULL(char* buffer, int length)
+{
+	MY_STRING hString = NULL;
+	if(my_string_c_str(hString) != FAILURE){
+		strncpy(buffer, "test_string_c_str_with_invalid_hString_returns_NULL\n"
+		"my_string_c_string does not return NULL", length);
+		return FAILURE;
+	}
+	else{
+		strncpy(buffer, "\test_string_c_str_with_invalid_hString_returns_NULL\n", length);
+		return SUCCESS;
+	}
+}
+
 Status test_string_c_str_returns_nonNULL(char* buffer, int length)
 {
   MY_STRING hString = NULL;
@@ -444,8 +497,39 @@ Status test_string_c_str_does_not_alter_string_size(char* buffer, int length)
 }
 
 //test my_string_concat//
-//Status test_string_concat_with_invalid_hResult(){}
-//Status test_string_concat_with_invalid_hAppend(){}
+Status test_string_concat_with_invalid_hResult_returns_FAILURE(char* buffer, int length)
+{
+	MY_STRING hString1 = NULL;
+	MY_STRING hString2 = my_string_init_c_string("testing... 1 2 3");
+	if(my_string_concat(hString1, hString2) != FAILURE){
+		my_string_destroy(&hString2);
+		strncpy(buffer, "test_string_concatat_with_invalid_hResult_returns_FAILURE\n"
+		"my_string_concat does not return FAILURE", length);
+		return FAILURE;
+	}
+	else{
+		my_string_destroy(&hString2);
+		strncpy(buffer, "\test_string_concat_with_invalid_hResult_returns_FAILURE\n", length);
+		return SUCCESS;
+	}
+}
+
+Status test_string_concat_with_invalid_hAppend_returns_FAILURE(char* buffer, int length)
+{
+	MY_STRING hString1 = my_string_init_c_string("testing... 1 2 3");
+	MY_STRING hString2 = NULL;
+	if(my_string_concat(hString1, hString2) != FAILURE){
+		my_string_destroy(&hString1);
+		strncpy(buffer, "test_string_concatat_with_invalid_hAppend_returns_FAILURE\n"
+		"my_string_concat does not return FAILURE", length);
+		return FAILURE;
+	}
+	else{
+		my_string_destroy(&hString1);
+		strncpy(buffer, "\test_string_concat_with_invalid_hAppend_returns_FAILURE\n", length);
+		return SUCCESS;
+	}
+}
 
 //valgrind issue with line: if(my_string_concat(hString1, hString2) != SUCCESS)
 Status test_string_concat_returns_SUCCESS(char* buffer, int length)
@@ -472,6 +556,7 @@ Status test_string_concat_returns_SUCCESS(char* buffer, int length)
 //this is simply assigning the address of hString2 to old_String2 and not necessarily checking
 // if the characters in the strings are the not altered - also valgrind issue with line:
 // my_string_concat(hString1, hString2);
+/*
 Status test_string_concat_does_not_alter_hAppend(char* buffer, int length)
 {
   MY_STRING hString1 = NULL;
@@ -497,6 +582,7 @@ Status test_string_concat_does_not_alter_hAppend(char* buffer, int length)
     return SUCCESS;
   }
 }
+*/
 
 Status test_string_concat_does_not_alter_hResult_or_hAppend_on_FAILURE(char* buffer, int length)
 {
