@@ -82,6 +82,9 @@ int my_string_get_size(MY_STRING hMy_string)
 int my_string_compare(MY_STRING hLeft_string, MY_STRING hRight_string)
 {
   int i = 0;
+  if(hLeft_string == NULL || hRight_string == NULL){
+	  return 0;
+  }
   My_string* pLeft_string = (My_string*)hLeft_string;
   My_string* pRight_string = (My_string*)hRight_string;
   for(i = 0; pLeft_string->data[i] == pRight_string->data[i]; i++)
@@ -289,7 +292,7 @@ char* my_string_c_str(MY_STRING hMy_string)
 {
   if(hMy_string == NULL)
     {
-      return FAILURE;
+      return NULL;
     }
   else
     {
@@ -301,7 +304,7 @@ char* my_string_c_str(MY_STRING hMy_string)
 	  temp = (char*)malloc(sizeof(char) * (pMy_string->capacity + 1));
 	  if(temp == NULL)
 	    {
-	      return FAILURE;
+	      return NULL;
 	    }
 	  for(i = 0; i < pMy_string->size; i++)
 	    {
@@ -328,6 +331,9 @@ Status my_string_concat(MY_STRING hResult, MY_STRING hAppend)
 {
   int i;
   char* temp;
+  if(hResult == NULL || hAppend == NULL){
+	  return FAILURE;
+  }
   My_string* pResult = (My_string*)hResult;
   My_string* pAppend = (My_string*)hAppend;
   if(pResult->capacity < (pResult->size + pAppend->size))

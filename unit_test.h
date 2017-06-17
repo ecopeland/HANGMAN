@@ -6,7 +6,6 @@
 Status test_init_default_returns_nonNULL(char* buffer, int length);
 Status test_get_size_on_init_default_returns_0(char* buffer, int length);
 Status test_get_capacity_on_init_default_returns_7(char* buffer, int length);
-//Status test_init_default_returns_valid_string_object(char* buffer, int length);
 
 //test my_string_init_c_string//
 Status test_my_string_init_c_string_with_invalid_c_string(char* buffer, int length);
@@ -30,11 +29,11 @@ Status test_string_compare_returns_positive(char* buffer, int length);
 
 //test my_string_extraction//
 //Status test_extraction_with_invalid_hString(char* buffer, int length);
-Status test_string_extraction_returns_SUCCESS(char* buffer, int length);
+//Status test_string_extraction_returns_SUCCESS(char* buffer, int length);
 
 //test my_string_insertion//
 //Status test_my_string_insertion_with_invalid_hString(char* buffer, int length);
-Status test_string_insertion_returns_SUCCESS(char* buffer, int length);
+//Status test_string_insertion_returns_SUCCESS(char* buffer, int length);
 
 //test my_string_push_back//
 //Status test_string_push_back_with_invalid_hString(){}
@@ -43,6 +42,7 @@ Status test_string_push_back_returns_SUCCESS(char* buffer, int length);
 //test my_string_pop_back//
 //Status test_string_pop_back_with_invalid_hString(){}
 Status test_string_pop_back_returns_SUCCESS(char* buffer, int length);
+Status test_string_pop_back_returns_FAILURE_if_string_empty(char* buffer, int length);
 
 //test my_string_at//
 //Status test_string_at_with_invalid_hString(){}

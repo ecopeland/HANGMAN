@@ -59,8 +59,6 @@ Status test_get_capacity_on_init_default_returns_7(char* buffer, int length)
   return status;
 }
 
-//Status test_init_default_returns_valid_string_object(){}
-
 //test my_string_init_c_string//
 //Status test_my_string_init_c_string_with_invalid_c_string(){}
 Status test_init_c_string_returns_nonNULL(char* buffer, int length)
@@ -139,7 +137,21 @@ Status test_capacity_one_greater_than_size_on_init_c_string(char* buffer, int le
 }
 
 //test my_string_get_capacity//
-//Status test_get_capacity_with_invalid_hMy_string(){}
+/*
+Status test_get_capacity_with_invalid_hMy_string(char* buffer, int length)
+{
+	MY_STRING hString = NULL;
+	if(my_string_get_capacity(hString)){
+		strncpy(buffer, "test_get_capacity_with_invalid_hMy_string\n"
+		"my_string_capacity does not check if hMy_string is invalid", length);
+		return FAILURE;
+	}
+	else{
+		strncpy(buffer, "\test_get_capacity_with_invalid_hMy_string\n", length);
+		return SUCCESS;
+	}
+}
+*/
 
 //test my_string_get_size//
 //Status test_get_size_with_invalid_hMy_string(){}
@@ -221,46 +233,107 @@ Status test_string_compare_returns_positive(char* buffer, int length)
 
 //test my_string_extraction//
 //Status test_extraction_with_invalid_hString(){}
+
+/*
 Status test_string_extraction_returns_SUCCESS(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_default();
-  Status status;
   FILE* fp;
+  //valgrind traced issue of memory leak to the line below
   fp = fopen("dictionary.txt", "r");
-  status = my_string_extraction(hString, fp);
-  if(status != SUCCESS){
-	  my_string_destroy(hString);
+  if(!my_string_extraction(hString, fp)){
+	  my_string_destroy(&hString);
 	  strncpy(buffer, "test_string_extraction_returns_SUCCESS\n"
 	  "my_string_extraction does not return SUCCESS", length);
+	  return FAILURE;
   }
   else{
-	  my_string_destroy(hString);
+	  my_string_destroy(&hString);
 	  strncpy(buffer, "\test_string_extraction_returns_SUCCESS\n", length);
+	  return SUCCESS;
   }
   fclose(fp);
-  return status;
 }
 
 //test my_string_insertion//
 //Status test_my_string_insertion_with_invalid_hString(){}
 Status test_string_insertion_returns_SUCCESS(char* buffer, int length)
 {
-    return SUCCESS;
+  MY_STRING hString = NULL;
+  hString = my_string_init_default();
+  FILE* fp;
+  //valgrind traced issue of memory leak to the line below
+  fp = fopen("dictionary.txt", "r");
+  my_string_extraction(hString, fp);
+  if(!my_string_insertion(hString, stdout)){
+	  my_string_destroy(&hString);
+	  strncpy(buffer, "test_string_insertion_returns_SUCCESS\n"
+	  "my_string_insertion does not return SUCCESS", length);
+	  return FAILURE;
+  }
+  else{
+	  my_string_destroy(&hString);
+	  strncpy(buffer, "\test_string_insertion_returns_SUCCESS\n", length);
+	  return SUCCESS;
+  }
+  fclose(fp);
 }
+*/
 
 //test my_string_push_back//
 //Status test_string_push_back_with_invalid_hString(){}
 Status test_string_push_back_returns_SUCCESS(char* buffer, int length)
 {
-    return SUCCESS;
+    MY_STRING hString = NULL;
+	hString = my_string_init_c_string("testing... 1 2 3 ");
+	if(my_string_push_back(hString, '4') != SUCCESS){
+		my_string_destroy(&hString);
+		strncpy(buffer, "test_string_push_back_returns_SUCCESS\n"
+		"my_string_push_back does not return SUCCESS", length);
+		return FAILURE;
+	}
+	else{
+		my_string_destroy(&hString);
+		strncpy(buffer, "\test_string_push_back_returns_SUCCESS\n", length);
+		return SUCCESS;
+	}
 }
 
 //test my_string_pop_back//
 //Status test_string_pop_back_with_invalid_hString(){}
 Status test_string_pop_back_returns_SUCCESS(char* buffer, int length)
 {
-    return SUCCESS;
+    MY_STRING hString = NULL;
+	hString = my_string_init_c_string("testing... 1 2 3");
+	if(my_string_pop_back(hString) != SUCCESS){
+		my_string_destroy(&hString);
+		strncpy(buffer, "test_string_pop_back_returns_SUCCESS\n"
+		"my_string_pop_back does not return SUCCESS", length);
+		return FAILURE;
+	}
+	else{
+		my_string_destroy(&hString);
+		strncpy(buffer, "\test_string_pop_back_returns_SUCCESS\n", length);
+		return SUCCESS;
+	}
+}
+
+Status test_string_pop_back_returns_FAILURE_if_string_empty(char* buffer, int length)
+{
+	MY_STRING hString = NULL;
+	hString = my_string_init_default();
+	if(my_string_pop_back(hString) != FAILURE){
+		my_string_destroy(&hString);
+		strncpy(buffer, "test_string_push_back_returns_SUCCESS\n"
+		"my_string_push_back does not return SUCCESS", length);
+		return FAILURE;
+	}
+	else{
+		my_string_destroy(&hString);
+		strncpy(buffer, "\test_string_push_back_returns_SUCCESS\n", length);
+		return SUCCESS;
+	}
 }
 
 //test my_string_at//
@@ -328,7 +401,6 @@ Status test_string_c_str_returns_nonNULL(char* buffer, int length)
   }
 }
 
-//check if null terminator at my_string_at(hsize+1)
 Status test_string_c_str_adds_capacity_for_NULL_terminator(char* buffer, int length)
 {
   MY_STRING hString = NULL;
@@ -374,12 +446,32 @@ Status test_string_c_str_does_not_alter_string_size(char* buffer, int length)
 //test my_string_concat//
 //Status test_string_concat_with_invalid_hResult(){}
 //Status test_string_concat_with_invalid_hAppend(){}
+
+//valgrind issue with line: if(my_string_concat(hString1, hString2) != SUCCESS)
 Status test_string_concat_returns_SUCCESS(char* buffer, int length)
 {
-    return SUCCESS;
+    MY_STRING hString1 = NULL;
+	MY_STRING hString2 = NULL;
+	hString1 = my_string_init_c_string("testing... 1 2 3");
+	hString2 = my_string_init_c_string(" 4 5 6 7 8 9 10");
+	if(my_string_concat(hString1, hString2) != SUCCESS){
+		my_string_destroy(&hString1);
+		my_string_destroy(&hString2);
+		strncpy(buffer, "test_string_concat_returns_SUCCESS\n"
+		"my_string_concat does not return SUCCESS", length);
+		return FAILURE;
+	}
+	else{
+		my_string_destroy(&hString1);
+		my_string_destroy(&hString2);
+		strncpy(buffer, "\test_string_concat_returns_SUCCESS\n", length);
+		return SUCCESS;
+	}
 }
 
-
+//this is simply assigning the address of hString2 to old_String2 and not necessarily checking
+// if the characters in the strings are the not altered - also valgrind issue with line:
+// my_string_concat(hString1, hString2);
 Status test_string_concat_does_not_alter_hAppend(char* buffer, int length)
 {
   MY_STRING hString1 = NULL;
