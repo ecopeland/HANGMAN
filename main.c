@@ -127,18 +127,15 @@ int main(int argc, char * argv[])
   
   //test my_string_extraction and my_string_insertion
   fp = fopen("dictionary.txt", "r");
-  while(my_string_extraction(hMy_string0, fp))
-    {
-	if(my_string_get_size(hMy_string0) == 29)
-	{
+  while(my_string_extraction(hMy_string0, fp)){
+	if(my_string_get_size(hMy_string0) == 29){
 	  my_string_insertion(hMy_string0, stdout);
 	  printf("\nThe floccinaucinihilipification of this word is entirely justified.\n");
 	}
       	if(fgetc(fp) == ' '){
-	
-	  printf("\n");
-	}
-    }
+			printf("\n");
+		}
+  }
   
   //destroy strings
   my_string_destroy(&hMy_string0);
