@@ -4,7 +4,7 @@
 #include "my_string.h"
 
 //test my_string_init_default//
-Status test_init_default_returns_nonNULL(char* buffer, int length)
+Status test_ecopelan_init_default_returns_nonNULL(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_default();
@@ -21,7 +21,7 @@ Status test_init_default_returns_nonNULL(char* buffer, int length)
   }
 }
 
-Status test_get_size_on_init_default_returns_0(char* buffer, int length)
+Status test_ecopelan_get_size_on_init_default_returns_0(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   Status status;
@@ -40,7 +40,7 @@ Status test_get_size_on_init_default_returns_0(char* buffer, int length)
   return status;
 }
 
-Status test_get_capacity_on_init_default_returns_7(char* buffer, int length)
+Status test_ecopelan_get_capacity_on_init_default_returns_7(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   Status status;
@@ -61,7 +61,7 @@ Status test_get_capacity_on_init_default_returns_7(char* buffer, int length)
 
 //test my_string_init_c_string//
 //Status test_my_string_init_c_string_with_invalid_c_string(){}
-Status test_init_c_string_returns_nonNULL(char* buffer, int length)
+Status test_ecopelan_init_c_string_returns_nonNULL(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_c_string("testing... 1 2 3");
@@ -78,7 +78,7 @@ Status test_init_c_string_returns_nonNULL(char* buffer, int length)
   }
 }
 
-Status test_get_capacity_on_init_c_string(char* buffer, int length)
+Status test_ecopelan_get_capacity_on_init_c_string(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   Status status;
@@ -97,7 +97,7 @@ Status test_get_capacity_on_init_c_string(char* buffer, int length)
   return status;
 }
 
-Status test_get_size_on_init_c_string(char* buffer, int length)
+Status test_ecopelan_get_size_on_init_c_string(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   Status status;
@@ -116,7 +116,7 @@ Status test_get_size_on_init_c_string(char* buffer, int length)
   return status;
 }
 
-Status test_capacity_one_greater_than_size_on_init_c_string(char* buffer, int length)
+Status test_ecopelan_capacity_one_greater_than_size_on_init_c_string(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   Status status;
@@ -138,7 +138,7 @@ Status test_capacity_one_greater_than_size_on_init_c_string(char* buffer, int le
 
 //test my_string_get_capacity//
 /*
-Status test_get_capacity_with_invalid_hMy_string(char* buffer, int length)
+Status test_ecopelan_get_capacity_with_invalid_hMy_string(char* buffer, int length)
 {
 	MY_STRING hString = NULL;
 	if(my_string_get_capacity(hString)){
@@ -159,7 +159,7 @@ Status test_get_capacity_with_invalid_hMy_string(char* buffer, int length)
 //test my_string_compare//
 //Status test_string_compare_with_invalid_hLeft_string(){}
 //Status test_string_compare_witn_invalid_hRight_string(){}
-Status test_string_compare_returns_negative(char* buffer, int length)
+Status test_ecopelan_string_compare_returns_negative(char* buffer, int length)
 {
   MY_STRING hLeft_string = NULL;
   MY_STRING hRight_string = NULL;
@@ -183,7 +183,7 @@ Status test_string_compare_returns_negative(char* buffer, int length)
   return status;
 }
 
-Status test_string_compare_returns_0(char* buffer, int length)
+Status test_ecopelan_string_compare_returns_0(char* buffer, int length)
 {
   MY_STRING hLeft_string = NULL;
   MY_STRING hRight_string = NULL;
@@ -207,7 +207,7 @@ Status test_string_compare_returns_0(char* buffer, int length)
   return status;
 }
 
-Status test_string_compare_returns_positive(char* buffer, int length)
+Status test_ecopelan_string_compare_returns_positive(char* buffer, int length)
 {
   MY_STRING hLeft_string = NULL;
   MY_STRING hRight_string = NULL;
@@ -234,7 +234,7 @@ Status test_string_compare_returns_positive(char* buffer, int length)
 //test my_string_extraction//
 //Status test_extraction_with_invalid_hString(){}
 /*
-Status test_string_extraction_returns_SUCCESS(char* buffer, int length)
+Status test_ecopelan_string_extraction_returns_SUCCESS(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_default();
@@ -257,7 +257,7 @@ Status test_string_extraction_returns_SUCCESS(char* buffer, int length)
 */
 
 //test my_string_insertion//
-//Status test_my_string_insertion_with_invalid_hString(){}
+//Status test_ecopelan_my_string_insertion_with_invalid_hString(){}
 /*
 Status test_string_insertion_returns_SUCCESS(char* buffer, int length)
 {
@@ -283,7 +283,7 @@ Status test_string_insertion_returns_SUCCESS(char* buffer, int length)
 */
 
 //test my_string_push_back//
-Status test_string_push_back_with_invalid_hString_returns_FAILURE(char* buffer, int length)
+Status test_ecopelan_string_push_back_with_invalid_hString_returns_FAILURE(char* buffer, int length)
 {
 	MY_STRING hString = NULL;
 	if(my_string_push_back(hString, ' ') != FAILURE){
@@ -297,7 +297,7 @@ Status test_string_push_back_with_invalid_hString_returns_FAILURE(char* buffer, 
 	}
 }
 
-Status test_string_push_back_returns_SUCCESS(char* buffer, int length)
+Status test_ecopelan_string_push_back_returns_SUCCESS(char* buffer, int length)
 {
     MY_STRING hString = NULL;
 	hString = my_string_init_c_string("testing... 1 2 3 ");
@@ -315,7 +315,7 @@ Status test_string_push_back_returns_SUCCESS(char* buffer, int length)
 }
 
 //test my_string_pop_back//
-Status test_string_pop_back_with_invalid_hString_returns_FAILURE(char* buffer, int length)
+Status test_ecopelan_string_pop_back_with_invalid_hString_returns_FAILURE(char* buffer, int length)
 {
 	MY_STRING hString = NULL;
 	if(my_string_pop_back(hString) != FAILURE){
@@ -329,7 +329,7 @@ Status test_string_pop_back_with_invalid_hString_returns_FAILURE(char* buffer, i
 	}
 }
 
-Status test_string_pop_back_returns_SUCCESS(char* buffer, int length)
+Status test_ecopelan_string_pop_back_returns_SUCCESS(char* buffer, int length)
 {
     MY_STRING hString = NULL;
 	hString = my_string_init_c_string("testing... 1 2 3");
@@ -346,7 +346,7 @@ Status test_string_pop_back_returns_SUCCESS(char* buffer, int length)
 	}
 }
 
-Status test_string_pop_back_returns_FAILURE_if_string_empty(char* buffer, int length)
+Status test_ecopelan_string_pop_back_returns_FAILURE_if_string_empty(char* buffer, int length)
 {
 	MY_STRING hString = NULL;
 	hString = my_string_init_default();
@@ -364,7 +364,7 @@ Status test_string_pop_back_returns_FAILURE_if_string_empty(char* buffer, int le
 }
 
 //test my_string_at//
-Status test_string_at_with_invalid_hString_returns_NULL(char* buffer, int length)
+Status test_ecopelan_string_at_with_invalid_hString_returns_NULL(char* buffer, int length)
 {
 	MY_STRING hString = NULL;
 	if(my_string_at(hString, 1) != FAILURE){
@@ -378,7 +378,7 @@ Status test_string_at_with_invalid_hString_returns_NULL(char* buffer, int length
 	}
 }
 
-Status test_string_at_returns_nonNULL(char* buffer, int length)
+Status test_ecopelan_string_at_returns_nonNULL(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   char* temp;
@@ -399,7 +399,7 @@ Status test_string_at_returns_nonNULL(char* buffer, int length)
   return SUCCESS;
 }
 
-Status test_string_at_with_index_out_of_bounds_returns_NULL(char* buffer, int length)
+Status test_ecopelan_string_at_with_index_out_of_bounds_returns_NULL(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   char* temp;
@@ -421,7 +421,7 @@ Status test_string_at_with_index_out_of_bounds_returns_NULL(char* buffer, int le
 }
 
 //test my_string_c_str//
-Status test_string_c_str_with_invalid_hString_returns_NULL(char* buffer, int length)
+Status test_ecopelan_string_c_str_with_invalid_hString_returns_NULL(char* buffer, int length)
 {
 	MY_STRING hString = NULL;
 	if(my_string_c_str(hString) != FAILURE){
@@ -435,7 +435,7 @@ Status test_string_c_str_with_invalid_hString_returns_NULL(char* buffer, int len
 	}
 }
 
-Status test_string_c_str_returns_nonNULL(char* buffer, int length)
+Status test_ecopelan_string_c_str_returns_nonNULL(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   char* temp;
@@ -454,7 +454,7 @@ Status test_string_c_str_returns_nonNULL(char* buffer, int length)
   }
 }
 
-Status test_string_c_str_adds_capacity_for_NULL_terminator(char* buffer, int length)
+Status test_ecopelan_string_c_str_adds_capacity_for_NULL_terminator(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   int capacity, size;
@@ -475,7 +475,7 @@ Status test_string_c_str_adds_capacity_for_NULL_terminator(char* buffer, int len
   }
 }
 
-Status test_string_c_str_does_not_alter_string_size(char* buffer, int length)
+Status test_ecopelan_string_c_str_does_not_alter_string_size(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   int size, new_size;
@@ -497,7 +497,7 @@ Status test_string_c_str_does_not_alter_string_size(char* buffer, int length)
 }
 
 //test my_string_concat//
-Status test_string_concat_with_invalid_hResult_returns_FAILURE(char* buffer, int length)
+Status test_ecopelan_string_concat_with_invalid_hResult_returns_FAILURE(char* buffer, int length)
 {
 	MY_STRING hString1 = NULL;
 	MY_STRING hString2 = my_string_init_c_string("testing... 1 2 3");
@@ -514,7 +514,7 @@ Status test_string_concat_with_invalid_hResult_returns_FAILURE(char* buffer, int
 	}
 }
 
-Status test_string_concat_with_invalid_hAppend_returns_FAILURE(char* buffer, int length)
+Status test_ecopelan_string_concat_with_invalid_hAppend_returns_FAILURE(char* buffer, int length)
 {
 	MY_STRING hString1 = my_string_init_c_string("testing... 1 2 3");
 	MY_STRING hString2 = NULL;
@@ -532,12 +532,13 @@ Status test_string_concat_with_invalid_hAppend_returns_FAILURE(char* buffer, int
 }
 
 //valgrind issue with line: if(my_string_concat(hString1, hString2) != SUCCESS)
-Status test_string_concat_returns_SUCCESS(char* buffer, int length)
+Status test_ecopelan_string_concat_returns_SUCCESS(char* buffer, int length)
 {
     MY_STRING hString1 = NULL;
 	MY_STRING hString2 = NULL;
 	hString1 = my_string_init_c_string("testing... 1 2 3");
 	hString2 = my_string_init_c_string(" 4 5 6 7 8 9 10");
+	//valgrind issue with line below: "Invalid write of size 1"
 	if(my_string_concat(hString1, hString2) != SUCCESS){
 		my_string_destroy(&hString1);
 		my_string_destroy(&hString2);
@@ -557,7 +558,7 @@ Status test_string_concat_returns_SUCCESS(char* buffer, int length)
 // if the characters in the strings are the not altered - also valgrind issue with line:
 // my_string_concat(hString1, hString2);
 /*
-Status test_string_concat_does_not_alter_hAppend(char* buffer, int length)
+Status test_ecopelan_string_concat_does_not_alter_hAppend(char* buffer, int length)
 {
   MY_STRING hString1 = NULL;
   MY_STRING hString2 = NULL;
@@ -584,7 +585,7 @@ Status test_string_concat_does_not_alter_hAppend(char* buffer, int length)
 }
 */
 
-Status test_string_concat_does_not_alter_hResult_or_hAppend_on_FAILURE(char* buffer, int length)
+Status test_ecopelan_string_concat_does_not_alter_hResult_or_hAppend_on_FAILURE(char* buffer, int length)
 {
     return SUCCESS;
 }
@@ -592,7 +593,7 @@ Status test_string_concat_does_not_alter_hResult_or_hAppend_on_FAILURE(char* buf
 //test my_string_empty//
 //Status test_string_empty_with_invalid_hString(){}
 
-Status test_string_empty_returns_TRUE(char* buffer, int length)
+Status test_ecopelan_string_empty_returns_TRUE(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_default();
@@ -609,7 +610,7 @@ Status test_string_empty_returns_TRUE(char* buffer, int length)
   }
 }
 
-Status test_string_empty_returns_FALSE(char* buffer, int length)
+Status test_ecopelan_string_empty_returns_FALSE(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_c_string("testing... 1 2 3");
@@ -628,12 +629,12 @@ Status test_string_empty_returns_FALSE(char* buffer, int length)
 
 //test my_string_destroy//
 //Status test_string_destroy_with_invalid_phString(){}
-Status test_string_destroy_free_object_memory(char* buffer, int length)
+Status test_ecopelan_string_destroy_free_object_memory(char* buffer, int length)
 {
     return SUCCESS;
 }
 
-Status test_string_destroy_sets_phMy_string_to_NULL(char* buffer, int length)
+Status test_ecopelan_string_destroy_sets_phMy_string_to_NULL(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_c_string("testing... 1 2 3");
@@ -648,4 +649,34 @@ Status test_string_destroy_sets_phMy_string_to_NULL(char* buffer, int length)
     strncpy(buffer, "\test_string_destroy_sets_phMy_string_to_NULL\n", length);
     return SUCCESS;
   }
+}
+
+//test my_string_assignment//
+void test_string_assignment()
+{
+	//create an array of MY_STRING handles with 100 elements
+	MY_STRING array[100];
+	//initialize each element of the array to NULL
+	int i;
+	for(i = 0; i < 100; i++){
+		array[i] = NULL;
+	}
+	//use init_c_string to initialize the first element of the array
+	// to the string, "COPY ME!".
+	array[0] = my_string_init_c_string("COPY ME!");
+	//write a for loop that uses the assignment function to copy
+	// the first string into every other element of the array
+	for(i = 1; i < 100; i++){
+		my_string_assignment(&array[i], array[0]);
+	}
+	//destroy every element of the array with a for loop
+	// calling destroy on each element BUT use string_insertion 
+	// to print each element to the screen just before deleting 
+	for(i = 0; i < 100; i++){
+		my_string_insertion(array[i], stdout);
+		printf("\n");
+		//valgrind hits seg fault with line below
+		my_string_destroy(&array[i]);
+	}
+	return;
 }

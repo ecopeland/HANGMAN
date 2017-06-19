@@ -368,19 +368,59 @@ Boolean my_string_empty(MY_STRING hMy_string)
   return (Boolean)(pMy_string->size == 0);
 }
 
+//Precondition: pLeft is the address of a MY_STRING handle containing a valid
+// MY_STRING object address OR NULL. The value of Right must be the handle of
+// a valid MY_STRING object.
+//Postcondition: On success, pLeft will contain the address of a handle to a 
+// valid MY_STRING object that is a deep copy of the object indicated by Right.
+// If the value of the handle at the address indicated by pLeft is originally 
+// NULL then the function will attempt to initialize a new object that is a 
+// deep copy of the object indicated by Right, otherwise the object indicated by
+// the handle at the address pLeft will attempt to resize to hold the data in Right.
+// On failure, pLeft will be left as NULL and any memory that may have been used 
+// by a potential object indicated by pLeft will be returned to the freestore.
+Status my_string_assignment(Item* pLeft, Item Right)
+{
+	//int i;
+	//char* temp;
+	My_string* left = NULL;
+	My_string* right = (My_string*) Right;
+	//check Right is handle of a valid MY_STRING object
+	if(Right == NULL){
+		return FAILURE;
+	}
+	//if pLeft is not NULL, but a the handle of a valid MY_STRING object
+	if(*pLeft != NULL){
+		//empty pLeft
+		my_string_destroy(*pLeft);
+	}
+	//if pLeft is NULL
+	if(*pLeft == NULL){
+		//initialize new object that is copy of Right
+		left = my_string_init_c_string(my_string_c_str(right));
+		*pLeft = left;
+		//if failure, return memory and set pLeft to NULL
+		if(*pLeft == NULL){
+			my_string_destroy(*pLeft);
+			return FAILURE;
+		}
+	}
+	return SUCCESS;
+}
+
 //Precondition: phMy_string holds the address of a valid handle to a MY_STRING
 // object.
 //Postcondition: The memory used for the MY_STRING object has to be reclaimed
 // by the system and the handle referred to by the pointer phMy_string has been
 // set to NULL.
-void my_string_destroy(MY_STRING* phMy_string)
+void my_string_destroy(Item* pItem)
 {
-  if(phMy_string != NULL)
+  if(pItem != NULL)
     {
-       My_string* pMy_string = (My_string*) *phMy_string;
+       My_string* pMy_string = (My_string*) *pItem;
        free(pMy_string->data);
        free(pMy_string);
-       *phMy_string = NULL;
-	   phMy_string = NULL;
+       *pItem = NULL;
+	   pItem = NULL;
     }
 }
