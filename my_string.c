@@ -367,7 +367,7 @@ Status my_string_concat(MY_STRING hResult, MY_STRING hAppend)
       pResult->data = temp;
       pResult->capacity = (pResult->size + pAppend->size);
     }
-  for(i = 0; i < pResult->size; i++)
+  for(i = 0; i < pAppend->size; i++)
     {
       pResult->data[pResult->size + i] = pAppend->data[i];
     }
@@ -423,6 +423,7 @@ Boolean my_string_empty(MY_STRING hMy_string)
 	}
 	return SUCCESS;
 } */
+
 
 //Precondition: phMy_string holds the address of a valid handle to a MY_STRING
 // object.

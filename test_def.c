@@ -261,21 +261,23 @@ Status test_ecopelan_string_insertion_returns_SUCCESS(char* buffer, int length)
   MY_STRING hString = NULL;
   hString = my_string_init_default();
   FILE* fp;
+  Status status;
   fp = fopen("dictionary.txt", "r");
+  FILE * fd = fopen("test_ecopelan_string_insertion_returns_SUCCESS.txt", "w");
   my_string_extraction(hString, fp);
-  if(!my_string_insertion(hString, stdout)){
-	  my_string_destroy(&hString);
+  if(!my_string_insertion(hString, fd)){
 	  strncpy(buffer, "test_string_insertion_returns_SUCCESS\n"
 	  "my_string_insertion does not return SUCCESS", length);
-	  fclose(fp);
-	  return FAILURE;
+	  status = FAILURE;
   }
   else{
-	  my_string_destroy(&hString);
 	  strncpy(buffer, "\test_string_insertion_returns_SUCCESS\n", length);
-	  fclose(fp);
-	  return SUCCESS;
+	  status = SUCCESS;
   }
+  my_string_destroy(&hString);
+  fclose(fp);
+  fclose(fd);
+  return status;
 }
 
 //test my_string_push_back//
@@ -666,8 +668,8 @@ Status test_ecopelan_string_destroy_sets_phMy_string_to_NULL(char* buffer, int l
 		my_string_assignment(&array[i], array[0]);
 	}
 	//destroy every element of the array with a for loop
-	// calling destroy on each element BUT use string_insertion 
-	// to print each element to the screen just before deleting 
+	// calling destroy on each element BUT use string_insertion
+	// to print each element to the screen just before deleting
 	for(i = 0; i < 100; i++){
 		my_string_insertion(array[i], stdout);
 		printf("\n");
