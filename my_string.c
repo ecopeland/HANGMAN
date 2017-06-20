@@ -424,6 +424,7 @@ Status my_string_assignment(Item* pLeft, Item Right)
 	return SUCCESS;
 }
 
+
 //Precondition: phMy_string holds the address of a valid handle to a MY_STRING
 // object.
 //Postcondition: The memory used for the MY_STRING object has to be reclaimed
