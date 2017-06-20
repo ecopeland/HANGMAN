@@ -87,14 +87,30 @@ int my_string_compare(MY_STRING hLeft_string, MY_STRING hRight_string)
   }
   My_string* pLeft_string = (My_string*)hLeft_string;
   My_string* pRight_string = (My_string*)hRight_string;
-  for(i = 0; pLeft_string->data[i] == pRight_string->data[i]; i++)
-    {
-      if(pLeft_string->data[i] == '\0')
-	{
-	  return 0;
-	}
-    }
-  return pLeft_string->data[i] - pRight_string->data[i];
+  Boolean mismatched = FALSE;
+  for(i = 0; i < pLeft_string->size && i < pRight_string->size; i++){
+	  if(pLeft_string->data[i] != pRight_string->data[i]){
+		  mismatched = TRUE;
+		  break;
+	  }
+  }
+  if(mismatched){
+	  return pLeft_string->data[i] - pRight_string->data[i];
+  }
+  else{
+	  if(pLeft_string->size == pRight_string->size){
+		  return 0;
+	  }
+	  else{
+		  if(pLeft_string->size > pRight_string->size){
+			  return 1;
+		  }
+		  else{
+			  // if(pLeft_string->size < pRight_string->size)
+				  return -1;
+		  }
+	  }
+  }
 }
 
 //Precondition: hMy_string is the handle to a valid My_String object.
@@ -150,7 +166,7 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 		{
 		  temp[i] = pMy_string->data[i];
 		}
-	      temp[i] = ' ';
+	      //temp[i] = ' ';
 	      free(pMy_string->data);
 	      pMy_string->data = temp;
 	      pMy_string->capacity *= 2;

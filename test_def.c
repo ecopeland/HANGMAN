@@ -233,54 +233,50 @@ Status test_ecopelan_string_compare_returns_positive(char* buffer, int length)
 
 //test my_string_extraction//
 //Status test_extraction_with_invalid_hString(){}
-/*
 Status test_ecopelan_string_extraction_returns_SUCCESS(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_default();
   FILE* fp;
-  //valgrind traced issue of memory leak to the line below
   fp = fopen("dictionary.txt", "r");
   if(!my_string_extraction(hString, fp)){
 	  my_string_destroy(&hString);
 	  strncpy(buffer, "test_string_extraction_returns_SUCCESS\n"
 	  "my_string_extraction does not return SUCCESS", length);
+	  fclose(fp);
 	  return FAILURE;
   }
   else{
 	  my_string_destroy(&hString);
 	  strncpy(buffer, "\test_string_extraction_returns_SUCCESS\n", length);
+	  fclose(fp);
 	  return SUCCESS;
   }
-  fclose(fp);
 }
-*/
 
 //test my_string_insertion//
 //Status test_ecopelan_my_string_insertion_with_invalid_hString(){}
-/*
-Status test_string_insertion_returns_SUCCESS(char* buffer, int length)
+Status test_ecopelan_string_insertion_returns_SUCCESS(char* buffer, int length)
 {
   MY_STRING hString = NULL;
   hString = my_string_init_default();
   FILE* fp;
-  //valgrind traced issue of memory leak to the line below
   fp = fopen("dictionary.txt", "r");
   my_string_extraction(hString, fp);
   if(!my_string_insertion(hString, stdout)){
 	  my_string_destroy(&hString);
 	  strncpy(buffer, "test_string_insertion_returns_SUCCESS\n"
 	  "my_string_insertion does not return SUCCESS", length);
+	  fclose(fp);
 	  return FAILURE;
   }
   else{
 	  my_string_destroy(&hString);
 	  strncpy(buffer, "\test_string_insertion_returns_SUCCESS\n", length);
+	  fclose(fp);
 	  return SUCCESS;
   }
-  fclose(fp);
 }
-*/
 
 //test my_string_push_back//
 Status test_ecopelan_string_push_back_with_invalid_hString_returns_FAILURE(char* buffer, int length)
@@ -540,15 +536,15 @@ Status test_ecopelan_string_concat_returns_SUCCESS(char* buffer, int length)
 	hString2 = my_string_init_c_string(" 4 5 6 7 8 9 10");
 	//valgrind issue with line below: "Invalid write of size 1"
 	if(my_string_concat(hString1, hString2) != SUCCESS){
-		my_string_destroy(&hString1);
 		my_string_destroy(&hString2);
+		my_string_destroy(&hString1);
 		strncpy(buffer, "test_string_concat_returns_SUCCESS\n"
 		"my_string_concat does not return SUCCESS", length);
 		return FAILURE;
 	}
 	else{
-		my_string_destroy(&hString1);
 		my_string_destroy(&hString2);
+		my_string_destroy(&hString1);
 		strncpy(buffer, "\test_string_concat_returns_SUCCESS\n", length);
 		return SUCCESS;
 	}
@@ -675,7 +671,6 @@ void test_string_assignment()
 	for(i = 0; i < 100; i++){
 		my_string_insertion(array[i], stdout);
 		printf("\n");
-		//valgrind hits seg fault with line below
 		my_string_destroy(&array[i]);
 	}
 	return;
