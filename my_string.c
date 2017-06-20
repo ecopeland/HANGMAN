@@ -87,14 +87,30 @@ int my_string_compare(MY_STRING hLeft_string, MY_STRING hRight_string)
   }
   My_string* pLeft_string = (My_string*)hLeft_string;
   My_string* pRight_string = (My_string*)hRight_string;
-  for(i = 0; pLeft_string->data[i] == pRight_string->data[i]; i++)
-    {
-      if(pLeft_string->data[i] == '\0')
-	{
-	  return 0;
-	}
-    }
-  return pLeft_string->data[i] - pRight_string->data[i];
+  Boolean mismatched = FALSE;
+  for(i = 0; i < pLeft_string->size && i < pRight_string->size; i++){
+	  if(pLeft_string->data[i] != pRight_string->data[i]){
+		  mismatched = TRUE;
+		  break;
+	  }
+  }
+  if(mismatched){
+	  return pLeft_string->data[i] - pRight_string->data[i];
+  }
+  else{
+	  if(pLeft_string->size == pRight_string->size){
+		  return 0;
+	  }
+	  else{
+		  if(pLeft_string->size > pRight_string->size){
+			  return 1;
+		  }
+		  else{
+			  // if(pLeft_string->size < pRight_string->size)
+				  return -1;
+		  }
+	  }
+  }
 }
 
 //Precondition: hMy_string is the handle to a valid My_String object.
@@ -150,7 +166,7 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 		{
 		  temp[i] = pMy_string->data[i];
 		}
-	      temp[i] = ' ';
+	      //temp[i] = ' ';
 	      free(pMy_string->data);
 	      pMy_string->data = temp;
 	      pMy_string->capacity *= 2;
@@ -368,7 +384,6 @@ Boolean my_string_empty(MY_STRING hMy_string)
   return (Boolean)(pMy_string->size == 0);
 }
 
-/*
 //Precondition: pLeft is the address of a MY_STRING handle containing a valid
 // MY_STRING object address OR NULL. The value of Right must be the handle of
 // a valid MY_STRING object.
@@ -380,7 +395,7 @@ Boolean my_string_empty(MY_STRING hMy_string)
 // the handle at the address pLeft will attempt to resize to hold the data in Right.
 // On failure, pLeft will be left as NULL and any memory that may have been used 
 // by a potential object indicated by pLeft will be returned to the freestore.
-Status my_string_assignment(Item* pLeft, Item Right)
+/* Status my_string_assignment(Item* pLeft, Item Right)
 {
 	//int i;
 	//char* temp;
@@ -391,31 +406,29 @@ Status my_string_assignment(Item* pLeft, Item Right)
 		return FAILURE;
 	}
 	//if pLeft is not NULL, but a the handle of a valid MY_STRING object
-	if(pLeft != NULL){
+	if(*pLeft != NULL){
 		//empty pLeft
-		my_string_destroy(pLeft);
+		my_string_destroy(*pLeft);
 	}
 	//if pLeft is NULL
-	if(pLeft == NULL){
+	if(*pLeft == NULL){
 		//initialize new object that is copy of Right
-		left = my_string_init_c_string(right->data);
+		left = my_string_init_c_string(my_string_c_str(right));
 		*pLeft = left;
 		//if failure, return memory and set pLeft to NULL
-		if(pLeft == NULL){
-			my_string_destroy(pLeft);
+		if(*pLeft == NULL){
+			my_string_destroy(*pLeft);
 			return FAILURE;
 		}
 	}
 	return SUCCESS;
-}
-*/
+} */
 
 //Precondition: phMy_string holds the address of a valid handle to a MY_STRING
 // object.
 //Postcondition: The memory used for the MY_STRING object has to be reclaimed
 // by the system and the handle referred to by the pointer phMy_string has been
 // set to NULL.
-/*
 void my_string_destroy(Item* pItem)
 {
   if(pItem != NULL)
@@ -426,15 +439,4 @@ void my_string_destroy(Item* pItem)
        *pItem = NULL;
 	   pItem = NULL;
     }
-}
-*/
-void my_string_destroy(MY_STRING *phMy_string)
-{
-	if(phMy_string != NULL){
-		My_string* pMy_string = (My_string*) *phMy_string;
-		free(pMy_string->data);
-		free(pMy_string);
-		*phMy_string = NULL;
-		phMy_string = NULL;
-	}
 }

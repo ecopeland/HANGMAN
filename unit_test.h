@@ -29,11 +29,11 @@ Status test_ecopelan_string_compare_returns_positive(char* buffer, int length);
 
 //test my_string_extraction//
 //Status test_ecopelan_extraction_with_invalid_hString(char* buffer, int length);
-//Status test_ecopelan_string_extraction_returns_SUCCESS(char* buffer, int length);
+Status test_ecopelan_string_extraction_returns_SUCCESS(char* buffer, int length);
 
 //test my_string_insertion//
 //Status test_ecopelan_my_string_insertion_with_invalid_hString(char* buffer, int length);
-//Status test_ecopelan_string_insertion_returns_SUCCESS(char* buffer, int length);
+Status test_ecopelan_string_insertion_returns_SUCCESS(char* buffer, int length);
 
 //test my_string_push_back//
 Status test_ecopelan_string_push_back_with_invalid_hString_returns_FAILURE(char* buffer, int length);
