@@ -62,6 +62,6 @@ int main(int argc, char* argv[])
  printf("Total number of tests: %d\n", number_of_functions);
  printf("%d/%d Pass, %d/%d Failure\n", success_count,
  number_of_functions, failure_count, number_of_functions);
- //test_string_assignment();
+ test_string_assignment();
  return 0;
 }
