@@ -261,23 +261,23 @@ Status test_ecopelan_string_insertion_returns_SUCCESS(char* buffer, int length)
   MY_STRING hString = NULL;
   hString = my_string_init_default();
   FILE* fp;
-  Status status;
+  Status return_status;
   fp = fopen("dictionary.txt", "r");
   FILE * fd = fopen("test_ecopelan_string_insertion_returns_SUCCESS.txt", "w");
   my_string_extraction(hString, fp);
   if(!my_string_insertion(hString, fd)){
 	  strncpy(buffer, "test_string_insertion_returns_SUCCESS\n"
 	  "my_string_insertion does not return SUCCESS", length);
-	  status = FAILURE;
+	  return_status = FAILURE;
   }
   else{
 	  strncpy(buffer, "\test_string_insertion_returns_SUCCESS\n", length);
-	  status = SUCCESS;
+	  return_status = SUCCESS;
   }
   my_string_destroy(&hString);
   fclose(fp);
   fclose(fd);
-  return status;
+  return return_status;
 }
 
 //test my_string_push_back//

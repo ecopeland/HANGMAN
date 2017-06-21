@@ -129,7 +129,7 @@ int my_string_compare(MY_STRING hLeft_string, MY_STRING hRight_string)
 // array unless needed.
 Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 {
-  if(hMy_string == NULL)
+if(hMy_string == NULL || fp == NULL)
     {
       return FAILURE;
     }
@@ -146,7 +146,7 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
       while(c != EOF)
 	{
       // printf("%c\n", c);
-    //leading whitespace is ignored
+	  //leading whitespace is ignored
 	  if(isspace(c))
 	    {
 	      continue;
@@ -191,7 +191,7 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 // if it successfully writes the string and FAILURE otherwise.
 Status my_string_insertion(MY_STRING hMy_string, FILE* fp)
 {
-  if(hMy_string == NULL)
+  if(hMy_string == NULL || fp == NULL)
     {
       return FAILURE;
     }

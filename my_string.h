@@ -1,5 +1,9 @@
+#ifndef STRING_H
+#define STRING_H
+
 #include <stdio.h>
 #include "generic.h"
+#include "status.h"
 
 typedef void* MY_STRING;
 
@@ -10,20 +14,6 @@ struct my_string
   char* data;
 };
 typedef struct my_string My_string;
-
-enum status
-{
-  FAILURE = 0,
-  SUCCESS
-};
-typedef enum status Status;
-
-enum boolean
-{
-  FALSE = 0,
-  TRUE
-};
-typedef enum boolean Boolean;
 
 //Precondition: none
 //Postcondition: Allocate space for a string object that represents the empty
@@ -147,3 +137,5 @@ Status my_string_assignment(Item* pLeft, Item Right);
 // the system and the handle referred to by the pointer phMy_string has been set
 // to NULL.
 void my_string_destroy(Item* pItem);
+
+#endif
