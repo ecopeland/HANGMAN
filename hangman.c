@@ -68,50 +68,38 @@
  Status get_word_key_value(MY_STRING current_word_family, MY_STRING new_key, MY_STRING word, char guess)
  {
 	int i;
-	char family;
-	char word_char;
-	MY_STRING temp_key = my_string_init_default();
-	if(temp_key == NULL){
+	Status return_status;
+	
+	//checks (preconditions)
+	if(current_word_family == NULL || new_key == NULL || word == NULL){
 		return FAILURE;
 	}
-	if(current_word_family == NULL || word == NULL){
-		return FAILURE;
-	}
-	if(!((guess >= 'a' && guess <= 'z') || (guess >= 'A' && guess <= 'Z'))){
-		return FAILURE;
-	}
+	//works for both upper and lower case
 	Status uppercase = isupper(guess);
 	if(uppercase){
 		guess = tolower(guess);
 	}
-	//do stuff
+	if(!(guess >= 'a' && guess <= 'z')){
+		return FAILURE;
+	}
+	
+	//if all checks clear - create new key
 	for(i = 0; i < my_string_get_size(word); i++){
-		word_char = tolower(*(my_string_at(word, i)));
-		family = tolower(*(my_string_at(current_word_family, i)));
-		if(word_char == guess){
+		if(guess == *my_string_at(word, i) || guess == tolower(*my_string_at(current_word_family, i))){
+			//if uppercase guess and first letter of word,
+			// revert back to uppercase for new key
 			if(i == 0){
 				if(uppercase){
 					guess = toupper(guess);
 				}
 			}
-			if(!my_string_push_back(temp_key, guess)){
-				return FAILURE;
-			}
+			return_status = my_string_push_back(new_key, guess);
 		}
 		else{
-			if(uppercase){
-				guess = toupper(guess);
-			}
-			if(!my_string_push_back(temp_key, family)){
-				return FAILURE;
-			}
+			return_status = my_string_push_back(new_key, *my_string_at(current_word_family, i));
 		}
+		return return_status;
 	}
-	if(!my_string_assignment(new_key, temp_key)){
-		return FAILURE;
-	}
-	my_string_destroy(&temp_key);
-	return SUCCESS;
  }
 
  //generate vector with strings of word length from dictionary
