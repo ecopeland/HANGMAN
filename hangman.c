@@ -41,20 +41,22 @@
  {
 	int i;
 	MY_STRING key = my_string_init_default();
+	//checks
 	if(key == NULL){
+		return NULL;
+	}
+	if(length <= 0){
 		return NULL;
 	}
 	else{
 		for(i = 0; i < length; i++){
-			if(my_string_push_back(key, '-')){
-				return key;
-			}
-			else{
+			if(!my_string_push_back(key, '-')){
 				my_string_destroy(&key);
 				return NULL;
 			}
 		}
 	}
+	return key;
  }
  
  //Precondition: current_word_family, new_key, and word are all handles to
@@ -70,7 +72,7 @@
 	int i;
 	Status return_status;
 	
-	//checks (preconditions)
+	//check inputs (preconditions)
 	if(current_word_family == NULL || new_key == NULL || word == NULL){
 		return FAILURE;
 	}
@@ -102,9 +104,11 @@
 	return return_status;
  }
 
- //generate vector with strings of word length from dictionary
+ 
+/*  //generate vector with strings of word length from dictionary
  MY_VECTOR generate_vector_length(int length)
  {
+	
 	//int i;
 	FILE* fp;
 	fp = fopen("dictionary.txt", "r");
@@ -114,14 +118,14 @@
 		return NULL;
 	}
 	
-	/*//create array of vectors of My_strings
-	MY_VECTOR array[30];
-	for(i = 1; i < 30; i++){
-		array[i] = vector_init_default();
-		if(array[i] == NULL){
-			exit(1);
-		}
-	}*/
+	// //create array of vectors of My_strings
+	// MY_VECTOR array[30];
+	// for(i = 1; i < 30; i++){
+		// array[i] = vector_init_default();
+		// if(array[i] == NULL){
+			// exit(1);
+		// }
+	// }
 
 	MY_VECTOR hVector = vector_init_default();
 	//push string to vector if string from dictionary has correct word length
@@ -134,81 +138,129 @@
 		}
 	}
 
-	/* for(i = 1; i < 30; i++){
+	// for(i = 1; i < 30; i++){
+		// //print the size of each of the vectors 
+		// // (providing a count of how many words of each length)
+		// printf("Vectors containing strings of length %2d: %d\n", i, vector_get_size(array[i]));
+		// //destroy array of vectors
+		// vector_destroy(&array[i]);
+	// }
+
+	my_string_destroy(&hString);
+	fclose(fp);
+	return hVector;
+ }  */
+ 
+ /*
+ MY_VECTOR generate_vector_words(MY_STRING key)
+ {
+	int i;
+	FILE* fp;
+	fp = fopen("dictionary.txt", "r");
+	MY_STRING hString = my_string_init_default();
+	
+	if(hString == NULL || fp == NULL){
+		return NULL;
+	}
+	
+	//create array of vectors of My_strings
+	MY_VECTOR array[30];
+	for(i = 1; i < 30; i++){
+		array[i] = vector_init_default();
+		if(array[i] == NULL){
+			exit(1);
+		}
+	}
+	//push string to vector at array position of string size (word length)
+	while(my_string_extraction(hString, fp)){
+		if(my_string_get_size(hString) < 30){
+			vector_push_back(array[my_string_get_size(hString)], hString);
+		}
+		if(fgetc(fp) == ' '){
+			continue;
+		}
+	}
+	for(i = 1; i < 30; i++){
 		//print the size of each of the vectors 
 		// (providing a count of how many words of each length)
 		printf("Vectors containing strings of length %2d: %d\n", i, vector_get_size(array[i]));
 		//destroy array of vectors
 		vector_destroy(&array[i]);
-	} */
-
+	}
 	my_string_destroy(&hString);
 	fclose(fp);
-	return hVector;
- }
- 
- /*
- MY_VECTOR generate_vector_words(char guess)
- {
-
  }
  */
-  
- //Precondition: length is possible word length, guess is alphabetical character,
- // and root (hTree) is either NULL or the root of a pre-existing key tree (AVL/BST).
- //Postcondition: If the given root (hTree) is NULL, this function generates
- // a tree given the arguments in #4 above and the words in the dictionary.
- // If the root (hTree) is not NULL, it should traverse the tree, find the
- // largest word group and use that as the dictionary.
- //BST: left_subtree (keys)  ≤  node (key)  ≤  right_subtree (keys)
- /* Tree* generate_key_tree(int length, char guess, Tree* hTree)
+ 
+ 
+ //generate tree node with key
+ NODE* node_key_init(MY_STRING key)
  {
-	Node* current;
-	Node* parent;
-	Node* temp_node = NULL;
+	//MY_STRING* temp_key = NULL;
+	Node* new_node = NULL;
+	new_node = (Node*)malloc(sizeof(Node));
+	//check
+	if(new_node == NULL){
+		free(new_node);
+		return NULL;
+	}
+	else{
+		new_node->key = NULL;
+		my_string_assignment(new_node->key, key);
+		new_node->words = vector_init_default();
+		//check
+		if(new_node->words == NULL){
+			my_string_destroy(&(new_node->key));
+			free(new_node);
+			return NULL;
+		}
+		new_node->left = NULL;
+		new_node->right = NULL;
+		return (NODE*)new_node;
+	}
+ }
+  
 
-	MY_STRING new_key = my_string_init_default();
-	//person is inputing root of tree -- guessed character, and length of word
-
+ //insert node into tree
+ TREE* insert_node(TREE* hTree, MY_STRING key, MY_STRING word)
+ {
+	Node* current = NULL;
+	Node* parent = NULL;
+	Node* temp_node = (Node*)node_key_init(key);
+	Tree* pTree = (Tree*)hTree;
+	//checks
+	if(temp_node == NULL || key == NULL || word == NULL){
+		return NULL;
+	}
 	//if tree is empty
-	if(hTree == NULL){
-		//generate temp_node with all the words in the dictionary
-		// with new key based on guess
-
-		//make key with guess.
-		get_word_key_value(current_word_family, new_key, word, guess);
-		temp_node = node_key_init(new_key);
-		//create vector with all the words in the dictionary--of that length
-		// and assign vector to temp_node->words
-		temp_node->words = generate_vector_length(length);
-		hTree->root = temp_node;
-		
+	if(pTree == NULL){
+		//create vector adding all the words from the dictionary
+		vector_push_back(temp_node->words, word);
+		pTree->root = temp_node;
 	}
 	//if tree is not empty (hTree != NULL)
 	else{
-		//if existing tree not null, take key from existing tree
-		// and modify it with the new guess
-		current = hTree;
-		parent = NULL;
-
+		current = pTree->root;
+		if(current == NULL){
+			return NULL;
+		}
 		while(1) {                
 			parent = current;
+			
 			//use my_string_compare(current_key (=left), new_key (=right))
 			// to determine which child it should be
-
-			//go to left of the tree
-			if(data < parent->data) {
+			if(my_string_compare(key, current->key) <= 0){
+				//go to left of the tree
 				current = current->left;                
 				//insert to the left
-					
 				if(current == NULL) {
 					parent->left = temp_node;
 					break;
 				}
-			}//go to right of the tree
+			}
 			else {
+				//go to right of the tree
 				current = current->right;
-				
 				//insert to the right
 				if(current == NULL) {
 					parent->right = temp_node;
@@ -217,64 +269,54 @@
 			}
 		}            
 	}
-	return hTree;
- } */
- 
- //Generate tree node with key
- Node* node_key_init(MY_STRING key)
- {
-	//MY_STRING* temp_key = NULL;
-	MY_VECTOR words = NULL;
-	Node* new_node = NULL;
-	new_node = (Node*)malloc(sizeof(Node));
-	if(new_node == NULL){
-		free(new_node);
-		return NULL;
-	}
-	else{
-		new_node->key = NULL;
-		my_string_assignment(new_node->key, key);
-		words = vector_init_default();
-		if(words == NULL){
-			my_string_destroy(&(new_node->key));
-			free(new_node);
-			return NULL;
-		}
-		new_node->left = NULL;
-		new_node->right = NULL;
-		return new_node;
-	}
+	return (TREE*)pTree;
  }
  
  //search tree with key
- /* Node* search_tree(Tree* hTree, MY_STRING current_word_family)
+ NODE* search_tree(TREE* hTree, MY_STRING key)
  {
-	Node* current = hTree;
-	My_string* pTreeKey = (My_string*)(current->key);
-	My_string* pKey = (My_string*)current_word_family;
-	printf("Visiting elements: ");
+	Tree* pTree = (Tree*)hTree;
+	//checks
+	if(pTree == NULL || key == NULL){
+		return NULL;
+	}
+	Node* current = pTree->root;
+	if(current == NULL){
+		return NULL;
+	}
 	
-	while(current->key != key){
+	//My_string* pKey = (My_string*)key;
+	//printf("Visiting elements: ");
 	
-		if(current != NULL) {
-			printf("%d ",current->key);
-			
-			//go to left tree
-			if(current->key > key){
-            current = current->left;
-			}//else go to right tree
-			else {                
+	while(current != NULL){
+		//when find the key
+		if(my_string_compare(key, current->key) == 0){
+			break;
+		}
+		else{
+			if(my_string_compare(key, current->key) < 0){
+				//go to left of the tree
+				current = current->left; 
+			}				
+			else{
+				//go to right of the tree
 				current = current->right;
 			}
-			
-			//not found
-			if(current == NULL){
-				return NULL;
-			}
-		}			
+		}
 	}
-	return current;
- } */
+	return (NODE*)current;
+ }
+ 
+ //Precondition: length is possible word length, guess is alphabetical character,
+ // and root (hTree) is either NULL or the root of a pre-existing key tree (AVL/BST).
+ //Postcondition: If the given root (hTree) is NULL, this function generates
+ // a tree given the arguments in #4 above and the words in the dictionary.
+ // If the root (hTree) is not NULL, it should traverse the tree, find the
+ // largest word group and use that as the dictionary.
+ //BST: left_subtree (keys)  ≤  node (key)  ≤  right_subtree (keys)
+ TREE* generate_key_tree(){
+	 return NULL;
+ }
  
  
  /************************EXTRA CREDIT**********************************/
