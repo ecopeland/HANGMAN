@@ -85,7 +85,7 @@
 	
 	//if all checks clear - create new key
 	for(i = 0; i < my_string_get_size(word); i++){
-		if(guess == *my_string_at(word, i) || guess == tolower(*my_string_at(current_word_family, i))){
+		if(guess == tolower(*my_string_at(word, i)) || guess == tolower(*my_string_at(current_word_family, i))){
 			//if uppercase guess and first letter of word,
 			// revert back to uppercase for new key
 			if(i == 0){
@@ -98,8 +98,8 @@
 		else{
 			return_status = my_string_push_back(new_key, *my_string_at(current_word_family, i));
 		}
-		return return_status;
 	}
+	return return_status;
  }
 
  //generate vector with strings of word length from dictionary
