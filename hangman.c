@@ -194,7 +194,7 @@
  
  
  //generate tree node with key
- NODE* node_key_init(MY_STRING key)
+ NODE node_key_init(MY_STRING key)
  {
 	//MY_STRING* temp_key = NULL;
 	Node* new_node = NULL;
@@ -216,13 +216,13 @@
 		}
 		new_node->left = NULL;
 		new_node->right = NULL;
-		return (NODE*)new_node;
+		return (NODE)new_node;
 	}
  }
   
 
  //insert node into tree
- TREE* insert_node(TREE* hTree, MY_STRING key, MY_STRING word)
+ TREE insert_node(TREE hTree, MY_STRING key, MY_STRING word)
  {
 	Node* current = NULL;
 	Node* parent = NULL;
@@ -269,11 +269,11 @@
 			}
 		}            
 	}
-	return (TREE*)pTree;
+	return (TREE)pTree;
  }
  
  //search tree with key
- NODE* search_tree(TREE* hTree, MY_STRING key)
+ NODE search_tree(TREE hTree, MY_STRING key)
  {
 	Tree* pTree = (Tree*)hTree;
 	//checks
@@ -304,7 +304,25 @@
 			}
 		}
 	}
-	return (NODE*)current;
+	return (NODE)current;
+ }
+ 
+ //destroy tree
+ void tree_destroy(TREE* phTree)
+ {
+	Tree* pTree = (Tree*) *phTree;
+	Node* root = pTree->root;
+	if(root == NULL){
+		return;
+	}
+	tree_destroy((TREE*)&(root->left));
+	tree_destroy((TREE*)&(root->right));
+	tree_destroy((TREE*)&(root));
+	my_string_destroy(root->key);
+	vector_destroy(root->words);
+	free(root);
+	free(pTree);
+	*phTree = NULL;
  }
  
  //Precondition: length is possible word length, guess is alphabetical character,
@@ -314,7 +332,7 @@
  // If the root (hTree) is not NULL, it should traverse the tree, find the
  // largest word group and use that as the dictionary.
  //BST: left_subtree (keys)  ≤  node (key)  ≤  right_subtree (keys)
- TREE* generate_key_tree(){
+ TREE generate_key_tree(TREE hTree, MY_STRING key){
 	 return NULL;
  }
  

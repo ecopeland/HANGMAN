@@ -40,12 +40,15 @@ typedef struct treeNode Node;
  //TREE* generate_key_tree();
  
  //generate tree node with key
- NODE* node_key_init(MY_STRING key);
+ NODE node_key_init(MY_STRING key);
  
  //insert node into tree
- TREE* insert_node(TREE* hTree, MY_STRING key, MY_STRING word);
+ TREE insert_node(TREE hTree, MY_STRING key, MY_STRING word);
  
  //search tree with key
- NODE* search_tree(TREE* hTree, MY_STRING key);
+ NODE search_tree(TREE hTree, MY_STRING key);
+ 
+ //destroy tree
+ void tree_destroy(TREE* phTree);
  
  #endif
