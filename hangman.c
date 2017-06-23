@@ -105,61 +105,17 @@
  }
 
  
-/*  //generate vector with strings of word length from dictionary
- MY_VECTOR generate_vector_length(int length)
- {
-	
-	//int i;
-	FILE* fp;
-	fp = fopen("dictionary.txt", "r");
-	MY_STRING hString = my_string_init_default();
-	
-	if(hString == NULL || fp == NULL){
-		return NULL;
-	}
-	
-	// //create array of vectors of My_strings
-	// MY_VECTOR array[30];
-	// for(i = 1; i < 30; i++){
-		// array[i] = vector_init_default();
-		// if(array[i] == NULL){
-			// exit(1);
-		// }
-	// }
-
-	MY_VECTOR hVector = vector_init_default();
-	//push string to vector if string from dictionary has correct word length
-	while(my_string_extraction(hString, fp)){
-		if(my_string_get_size(hString) == length){
-			vector_push_back(hVector, hString);
-		}
-		if(fgetc(fp) == ' '){
-			continue;
-		}
-	}
-
-	// for(i = 1; i < 30; i++){
-		// //print the size of each of the vectors 
-		// // (providing a count of how many words of each length)
-		// printf("Vectors containing strings of length %2d: %d\n", i, vector_get_size(array[i]));
-		// //destroy array of vectors
-		// vector_destroy(&array[i]);
-	// }
-
-	my_string_destroy(&hString);
-	fclose(fp);
-	return hVector;
- }  */
- 
- /*
- MY_VECTOR generate_vector_words(MY_STRING key)
+ //generate vector with strings of word length from dictionary
+ MY_VECTOR generate_vector_length()
  {
 	int i;
 	FILE* fp;
 	fp = fopen("dictionary.txt", "r");
 	MY_STRING hString = my_string_init_default();
+	MY_VECTOR hVector = vector_init_default();
 	
-	if(hString == NULL || fp == NULL){
+	//checks
+	if(hVector == NULL || hString == NULL || fp == NULL){
 		return NULL;
 	}
 	
@@ -168,9 +124,10 @@
 	for(i = 1; i < 30; i++){
 		array[i] = vector_init_default();
 		if(array[i] == NULL){
-			exit(1);
+			return NULL;
 		}
 	}
+	
 	//push string to vector at array position of string size (word length)
 	while(my_string_extraction(hString, fp)){
 		if(my_string_get_size(hString) < 30){
@@ -180,18 +137,47 @@
 			continue;
 		}
 	}
-	for(i = 1; i < 30; i++){
+	/* for(i = 1; i < 30; i++){
 		//print the size of each of the vectors 
 		// (providing a count of how many words of each length)
 		printf("Vectors containing strings of length %2d: %d\n", i, vector_get_size(array[i]));
 		//destroy array of vectors
 		vector_destroy(&array[i]);
-	}
+	} */
+
 	my_string_destroy(&hString);
 	fclose(fp);
- }
- */
+	return (MY_VECTOR)hVector;
+ } 
  
+ //generate new vector (copy of largest node vector)
+ MY_VECTOR generate_vector_words(TREE hTree, MY_STRING key)
+ {
+	int i;
+	Node* temp_node = NULL;
+	MY_VECTOR temp_vector = vector_init_default();
+	
+	//checks
+	if(hTree == NULL || key == NULL || temp_vector == NULL){
+		return NULL;
+	}
+	
+	//find node with largest vector and assign temp_node to that node
+	temp_node = largest_node(hTree);
+	
+	//assign key of largest node to key
+	my_string_assignment(&key, temp_node->key);
+	
+	//copy the vector of the largest node to temp_vector
+	for(i = 0; i < vector_get_size(temp_node->words); i++){
+		if(!vector_push_back(temp_vector, vector_at(temp_node->words, i))){
+			return NULL;
+		}
+	}
+
+	return temp_vector;
+ }
+	
  
  //generate tree node with key
  NODE node_key_init(MY_STRING key)
@@ -307,12 +293,61 @@
 	return (NODE)current;
  }
  
+ //find largest node in tree
+ NODE largest_node(TREE hTree)
+ {
+	int largest_size = 0;
+	Node* largest = NULL;
+	Node* root = NULL;
+	Tree* pTree = (Tree*)hTree;
+	//checks
+	if(pTree == NULL || (root = pTree->root) == NULL){
+		return NULL;
+	}
+	while(root){
+		if(root->right == NULL){
+			if(root->left == NULL){
+				if(largest_size < vector_get_size(root->words)){
+					largest = root;
+					largest_size = vector_get_size(largest);
+				}
+				break;
+			}
+			else{
+				root = root->left;
+				if(largest_size < vector_get_size(root->words)){
+					largest = root;
+					largest_size = vector_get_size(largest);
+				}
+			}
+		}
+		else{
+			if(root->left == NULL){
+				root = root->right;
+				if(largest_size < vector_get_size(root->words)){
+					largest = root;
+					largest_size = vector_get_size(largest->words);
+				}
+			}
+		}
+	}
+	return largest;
+ }
+ 
  //destroy tree
  void tree_destroy(TREE* phTree)
  {
 	Tree* pTree = (Tree*) *phTree;
+	//check
+	if(pTree == NULL){
+		phTree = NULL;
+		return;
+	}
 	Node* root = pTree->root;
+	//check
 	if(root == NULL){
+		free(pTree);
+		phTree = NULL;
 		return;
 	}
 	tree_destroy((TREE*)&(root->left));
@@ -322,7 +357,7 @@
 	vector_destroy(root->words);
 	free(root);
 	free(pTree);
-	*phTree = NULL;
+	phTree = NULL;
  }
  
  //Precondition: length is possible word length, guess is alphabetical character,
@@ -332,9 +367,9 @@
  // If the root (hTree) is not NULL, it should traverse the tree, find the
  // largest word group and use that as the dictionary.
  //BST: left_subtree (keys)  ≤  node (key)  ≤  right_subtree (keys)
- TREE generate_key_tree(TREE hTree, MY_STRING key){
+ /* TREE generate_key_tree(TREE hTree, MY_STRING key){
 	 return NULL;
- }
+ } */
  
  
  /************************EXTRA CREDIT**********************************/

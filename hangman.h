@@ -25,10 +25,12 @@ typedef struct treeNode Node;
  // There will be no duplicate keys.
  Status get_word_key_value(MY_STRING current_word_family, MY_STRING new_key, MY_STRING word, char guess);
  
- //generate vector with strings of word length from dictionary
- //MY_VECTOR generate_vector_length(int length);
-
- //MY_VECTOR generate_vector_words(char guess);
+ //generate array of vectors with strings of word length from dictionary
+ MY_VECTOR generate_vector_length();
+ 
+ //generate new vector (copy of largest node vector)
+ MY_VECTOR generate_vector_words(TREE hTree, MY_STRING key);
+ 
 
  //Precondition: length is possible word length, guess is alphabetical character,
  // and root (hTree) is either NULL or the root of a pre-existing key tree (AVL/BST).
@@ -47,6 +49,9 @@ typedef struct treeNode Node;
  
  //search tree with key
  NODE search_tree(TREE hTree, MY_STRING key);
+ 
+ //find largest node in tree
+ NODE largest_node(TREE hTree);
  
  //destroy tree
  void tree_destroy(TREE* phTree);
