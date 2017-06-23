@@ -335,29 +335,26 @@
  }
  
  //destroy tree
- void tree_destroy(TREE* phTree)
+ void tree_destroy(TREE hTree)
  {
-	Tree* pTree = (Tree*) *phTree;
+	Tree* pTree = (Tree*) hTree;
 	//check
 	if(pTree == NULL){
-		phTree = NULL;
 		return;
 	}
 	Node* root = pTree->root;
 	//check
 	if(root == NULL){
 		free(pTree);
-		phTree = NULL;
 		return;
 	}
-	tree_destroy((TREE*)&(root->left));
-	tree_destroy((TREE*)&(root->right));
-	tree_destroy((TREE*)&(root));
+	tree_destroy((TREE)&(root->left));
+	tree_destroy((TREE)&(root->right));
+	tree_destroy((TREE)&(root));
 	my_string_destroy(root->key);
 	vector_destroy(root->words);
 	free(root);
 	free(pTree);
-	phTree = NULL;
  }
  
  //Precondition: length is possible word length, guess is alphabetical character,

@@ -54,6 +54,6 @@ typedef struct treeNode Node;
  NODE largest_node(TREE hTree);
  
  //destroy tree
- void tree_destroy(TREE* phTree);
+ void tree_destroy(TREE hTree);
  
  #endif
