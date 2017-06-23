@@ -6,7 +6,7 @@
 
 int main(int argc, char * argv[])
 {
-	/* //initial dictionary
+	/* //initial dictionary (L7 checkpoint 1)
 	int i;
 	FILE* fp;
 	fp = fopen("dictionary.txt", "r");
@@ -44,6 +44,7 @@ int main(int argc, char * argv[])
 	fclose(fp);
 	return 0; */
 	
+	/* //test get_word_key_value (L8)
 	MY_STRING hString1 = my_string_init_c_string("The");
 	MY_STRING key1 = my_string_init_c_string("---");
 	MY_STRING new_key1 = my_string_init_default();
@@ -82,7 +83,69 @@ int main(int argc, char * argv[])
 	my_string_destroy(&new_key1);
 	my_string_destroy(&new_key2);
 	my_string_destroy(&new_key3);
-	my_string_destroy(&new_key4);
+	my_string_destroy(&new_key4); */
+	
+	//set up
+	//char guess;
+	//int length;
+	//MY_VECTOR vector[30];
+	//MY_STRING current_word_family;
+	//MY_STRING word;
+	//Status winning = FALSE;
+	
+	//checks
+	
+	//prompt user for length
+	//generate array of pointers to vectors
+	//find vector of length
+	//initialize key of length
+	//create temp_node with key
+	//set temp_node->words to vector of length (first dictionary)
+	
+	//prompt user for number of guesses
+	//initialize my_string containing guesses
+	//show user temp_node->key (my_string_c_str(key))
+	//show user vector_get_size(temp_node->words)
+	//show user guesses_remaining = length - my_string_get_size(Guesses)
+	//show user guessed characters (my_string_c_str(Guesses))
+	
+	//while (guesses_remaining > 0)
+	//prompt user for guess
+	//my_string_push_back(Guesses, guess);
+	//initialize Tree* hTree;
+	//set hTree->root = temp_node;
+	//build tree with all keys from dictionary (generate_key_tree)
+		//as create and insert each node:
+		//get_word_key_value
+			//show user node->key
+		//generate_vector_words
+			//show user vector_get_size(node->words)
+		//set temp_node = largest_node(hTree)
+	//check if win
+		//set status WINNING = TRUE;
+		//break
+	//if not win
+		//show user temp_node->key (my_string_c_str(key))
+		//show user vector_get_size(temp_node->words)
+		//show user guesses_remaining = length - my_string_get_size(Guesses)
+		//show user guessed characers (my_string_c_str(Guesses))
+	//destroy_tree(&hTree)
+	//end while
+	
+	//if WINNING = TRUE
+		//show user temp_node->key (my_string_c_str(key))
+		//print congratulations!
+	//if WINNING = FALSE
+		//show user temp_node->key (my_string_c_str(key))
+		//show user first word in temp_node->words
+			//my_string_c_str(vector_at(temp_node->words, 0))
+		//print sorry!
+			//play again?
+	//free memory
+		//destroy tree(temp_node)
+		//destroy vector(dictinary)
+		//destroy string(key)
+		//destroy string (Guesses)
 
 	return 0;
 }

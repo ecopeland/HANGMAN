@@ -27,12 +27,6 @@
  You may want to refer to L8 for hints. 
  */
  
- //char guess;
- //int length;
- //MY_VECTOR vector[30];
- //MY_STRING current_word_family;
- //MY_STRING word;
- 
  
  //Generate word key value with My_string->data. Key is index of Vector array
  // where vector contains only one My_string with that specific word.
@@ -105,17 +99,16 @@
  }
 
  
- //generate vector with strings of word length from dictionary
+ //generate array of vectors with strings of word length from dictionary
  MY_VECTOR generate_vector_length()
  {
 	int i;
 	FILE* fp;
 	fp = fopen("dictionary.txt", "r");
 	MY_STRING hString = my_string_init_default();
-	MY_VECTOR hVector = vector_init_default();
 	
 	//checks
-	if(hVector == NULL || hString == NULL || fp == NULL){
+	if(hString == NULL || fp == NULL){
 		return NULL;
 	}
 	
@@ -156,6 +149,7 @@
 	int i;
 	Node* temp_node = NULL;
 	MY_VECTOR temp_vector = vector_init_default();
+	Tree* pTree = (Tree*)hTree;
 	
 	//checks
 	if(hTree == NULL || key == NULL || temp_vector == NULL){
@@ -174,7 +168,6 @@
 			return NULL;
 		}
 	}
-
 	return temp_vector;
  }
 	
@@ -364,9 +357,16 @@
  // If the root (hTree) is not NULL, it should traverse the tree, find the
  // largest word group and use that as the dictionary.
  //BST: left_subtree (keys)  ≤  node (key)  ≤  right_subtree (keys)
- /* TREE generate_key_tree(TREE hTree, MY_STRING key){
-	 return NULL;
- } */
+ TREE generate_key_tree(NODE temp_node, MY_VECTOR dictionary){
+	//build tree with all keys from dictionary (generate_key_tree)
+		//as create and insert each node:
+		//get_word_key_value
+			//show user node->key
+		//generate_vector_words
+			//show user vector_get_size(node->words)
+		//set temp_node = largest_node(hTree)
+	return NULL;
+ }
  
  
  /************************EXTRA CREDIT**********************************/
