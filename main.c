@@ -91,7 +91,7 @@ int main(int argc, char * argv[])
 	//MY_VECTOR vector[30];
 	//MY_STRING current_word_family;
 	//MY_STRING word;
-	//Status winning = FALSE;
+	//Status WINNING = FAILURE;
 	
 	//checks
 	
@@ -108,12 +108,11 @@ int main(int argc, char * argv[])
 	//show user vector_get_size(temp_node->words)
 	//show user guesses_remaining = length - my_string_get_size(Guesses)
 	//show user guessed characters (my_string_c_str(Guesses))
+	//initialize TREE hTree = NULL;
 	
 	//while (guesses_remaining > 0)
 	//prompt user for guess
 	//my_string_push_back(Guesses, guess);
-	//initialize Tree* hTree;
-	//set hTree->root = temp_node;
 	//build tree with all keys from dictionary (generate_key_tree)
 		//as create and insert each node:
 		//get_word_key_value
@@ -122,20 +121,20 @@ int main(int argc, char * argv[])
 			//show user vector_get_size(node->words)
 		//set temp_node = largest_node(hTree)
 	//check if win
-		//set status WINNING = TRUE;
+		//set status WINNING = SUCCESS;
 		//break
 	//if not win
-		//show user temp_node->key (my_string_c_str(key))
-		//show user vector_get_size(temp_node->words)
+		//show user hTree->root->key (my_string_c_str(key))
+		//show user vector_get_size(hTree->root->words)
 		//show user guesses_remaining = length - my_string_get_size(Guesses)
 		//show user guessed characers (my_string_c_str(Guesses))
 	//destroy_tree(&hTree)
 	//end while
 	
-	//if WINNING = TRUE
+	//if WINNING = SUCCESS
 		//show user temp_node->key (my_string_c_str(key))
 		//print congratulations!
-	//if WINNING = FALSE
+	//if WINNING = FAILURE
 		//show user temp_node->key (my_string_c_str(key))
 		//show user first word in temp_node->words
 			//my_string_c_str(vector_at(temp_node->words, 0))

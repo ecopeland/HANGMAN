@@ -26,7 +26,7 @@ typedef struct treeNode Node;
  Status get_word_key_value(MY_STRING current_word_family, MY_STRING new_key, MY_STRING word, char guess);
  
  //generate array of vectors with strings of word length from dictionary
- MY_VECTOR generate_vector_length();
+ MY_VECTOR generate_vector_length(int length);
  
  //generate new vector (copy of largest node vector)
  MY_VECTOR generate_vector_words(TREE hTree, MY_STRING key);
@@ -39,13 +39,13 @@ typedef struct treeNode Node;
  // If the root (hTree) is not NULL, it should traverse the tree, find the
  // largest word group and use that as the dictionary.
  //BST: left_subtree (keys)  ≤  node (key)  ≤  right_subtree (keys)
- //TREE* generate_key_tree();
+ TREE generate_key_tree(TREE hTree, MY_STRING key, int length, char guess);
  
  //generate tree node with key
  NODE node_key_init(MY_STRING key);
  
  //insert node into tree
- TREE insert_node(TREE hTree, MY_STRING key, MY_STRING word);
+ Status insert_node(TREE hTree, MY_STRING key);
  
  //search tree with key
  NODE search_tree(TREE hTree, MY_STRING key);

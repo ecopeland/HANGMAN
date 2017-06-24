@@ -99,37 +99,39 @@
  }
 
  
- //generate array of vectors with strings of word length from dictionary
- MY_VECTOR generate_vector_length()
+ //generate vector with strings of word length from dictionary
+ MY_VECTOR generate_vector_length(int length)
  {
-	int i;
+	//int i;
 	FILE* fp;
 	fp = fopen("dictionary.txt", "r");
 	MY_STRING hString = my_string_init_default();
+	MY_VECTOR dictionary = vector_init_default();
 	
 	//checks
-	if(hString == NULL || fp == NULL){
+	if(dictionary == NULL || hString == NULL || fp == NULL){
 		return NULL;
 	}
 	
-	//create array of vectors of My_strings
+	/* //create array of vectors of My_strings
 	MY_VECTOR array[30];
 	for(i = 1; i < 30; i++){
 		array[i] = vector_init_default();
 		if(array[i] == NULL){
 			return NULL;
 		}
-	}
+	} */
 	
 	//push string to vector at array position of string size (word length)
 	while(my_string_extraction(hString, fp)){
-		if(my_string_get_size(hString) < 30){
-			vector_push_back(array[my_string_get_size(hString)], hString);
+		if(my_string_get_size(hString) == length - 1){
+			vector_push_back(dictionary, hString);
 		}
 		if(fgetc(fp) == ' '){
 			continue;
 		}
 	}
+	
 	/* for(i = 1; i < 30; i++){
 		//print the size of each of the vectors 
 		// (providing a count of how many words of each length)
@@ -140,7 +142,7 @@
 
 	my_string_destroy(&hString);
 	fclose(fp);
-	return (MY_VECTOR)hVector;
+	return (MY_VECTOR)dictionary;
  } 
  
  //generate new vector (copy of largest node vector)
@@ -149,7 +151,6 @@
 	int i;
 	Node* temp_node = NULL;
 	MY_VECTOR temp_vector = vector_init_default();
-	Tree* pTree = (Tree*)hTree;
 	
 	//checks
 	if(hTree == NULL || key == NULL || temp_vector == NULL){
@@ -201,27 +202,25 @@
   
 
  //insert node into tree
- TREE insert_node(TREE hTree, MY_STRING key, MY_STRING word)
+ Status insert_node(TREE hTree, MY_STRING key)
  {
 	Node* current = NULL;
 	Node* parent = NULL;
 	Node* temp_node = (Node*)node_key_init(key);
 	Tree* pTree = (Tree*)hTree;
 	//checks
-	if(temp_node == NULL || key == NULL || word == NULL){
-		return NULL;
+	if(temp_node == NULL || key == NULL){
+		return FAILURE;
 	}
 	//if tree is empty
 	if(pTree == NULL){
-		//create vector adding all the words from the dictionary
-		vector_push_back(temp_node->words, word);
 		pTree->root = temp_node;
 	}
 	//if tree is not empty (hTree != NULL)
 	else{
 		current = pTree->root;
 		if(current == NULL){
-			return NULL;
+			return FAILURE;
 		}
 		while(1) {                
 			parent = current;
@@ -246,9 +245,9 @@
 					break;
 				}
 			}
-		}            
+		}
 	}
-	return (TREE)pTree;
+	return SUCCESS;
  }
  
  //search tree with key
@@ -357,17 +356,52 @@
  // If the root (hTree) is not NULL, it should traverse the tree, find the
  // largest word group and use that as the dictionary.
  //BST: left_subtree (keys)  ≤  node (key)  ≤  right_subtree (keys)
- TREE generate_key_tree(NODE temp_node, MY_VECTOR dictionary){
-	//build tree with all keys from dictionary (generate_key_tree)
-		//as create and insert each node:
+ TREE generate_key_tree(TREE hTree, MY_STRING key, int length, char guess)
+ {
+	//build tree with all keys from dictionary
+	MY_STRING word = NULL;
+	MY_STRING temp_key = NULL;
+	MY_VECTOR dictionary = NULL;
+	Tree* pTree = (Tree*)hTree;
+	
+	//checks
+	if(key == NULL || length <= 0 || !isalpha(guess)){
+		return NULL;
+	}
+	if(!my_string_assignment(&temp_key, key)){
+		return NULL;
+	}
+	//if root is NULL
+	if(pTree == NULL || pTree->root == NULL){
+		Node* temp_node = (Node*)node_key_init(key);
+		dictionary = generate_vector_length(length);
+		temp_node->words = dictionary;
+		pTree->root = temp_node;
+	}
+	//if root is not null 
+	else{
+		//generate new dictionary with largest word group
+		dictionary = generate_vector_words((TREE)pTree, key);
+	}
+	//create tree with dictionary
+	while(vector_get_size(dictionary)){
+		int index = vector_get_size(dictionary) - 1;
+		word = vector_at(dictionary, index);
+
 		//get_word_key_value
-			//show user node->key
-		//generate_vector_words
-			//show user vector_get_size(node->words)
-		//set temp_node = largest_node(hTree)
-	return NULL;
+		get_word_key_value(key, temp_key, word, guess);
+		
+		//add node to tree
+		if(!insert_node((TREE)pTree, key)){
+			tree_destroy((TREE)pTree);
+			return NULL;
+		}
+		//delete words from dictionary (as add new nodes)
+		vector_pop_back(dictionary);
+	}
+	vector_destroy(&dictionary);
+	return (TREE)pTree;
  }
- 
  
  /************************EXTRA CREDIT**********************************/
  /*
