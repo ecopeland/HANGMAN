@@ -124,7 +124,7 @@
 	
 	//push string to vector at array position of string size (word length)
 	while(my_string_extraction(hString, fp)){
-		if(my_string_get_size(hString) == length - 1){
+		if(my_string_get_size(hString) == length){
 			vector_push_back(dictionary, hString);
 		}
 		if(fgetc(fp) == ' '){
@@ -186,7 +186,7 @@
 	}
 	else{
 		new_node->key = NULL;
-		my_string_assignment(new_node->key, key);
+		my_string_assignment(&(new_node->key), key);
 		new_node->words = vector_init_default();
 		//check
 		if(new_node->words == NULL){
@@ -199,7 +199,32 @@
 		return (NODE)new_node;
 	}
  }
+ 
+ Status assign_root(TREE hTree, NODE hNode){
+	Tree* pTree = (Tree*)hTree;
+	Node* pNode = (Node*)hNode;
+	if(pTree == NULL || pNode == NULL){
+		return FAILURE;
+	}
+	pTree->root = pNode;
+	return SUCCESS;
+ }
   
+ //print tree nodes
+ void print_tree(TREE hTree){
+	Node* root = (Node*)hTree;
+	if(root == NULL){
+		return;
+	}
+	if(root->left != NULL){
+		print_tree(root->left);
+	}
+	if(root->right != NULL){
+		print_tree(root->right);
+	}
+	printf("%s: %d\n", my_string_c_str(root->key), vector_get_size(root->words));
+	return;
+ }
 
  //insert node into tree
  Status insert_node(TREE hTree, MY_STRING key)
@@ -329,24 +354,17 @@
  //destroy tree
  void tree_destroy(TREE hTree)
  {
-	Tree* pTree = (Tree*) hTree;
-	//check
-	if(pTree == NULL){
-		return;
-	}
-	Node* root = pTree->root;
+	Node* root = (Node*) hTree;
 	//check
 	if(root == NULL){
-		free(pTree);
 		return;
 	}
 	tree_destroy((TREE)&(root->left));
 	tree_destroy((TREE)&(root->right));
-	tree_destroy((TREE)&(root));
 	my_string_destroy(root->key);
 	vector_destroy(root->words);
+	tree_destroy((TREE)&(root));
 	free(root);
-	free(pTree);
  }
  
  //Precondition: length is possible word length, guess is alphabetical character,

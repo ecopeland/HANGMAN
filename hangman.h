@@ -44,6 +44,11 @@ typedef struct treeNode Node;
  //generate tree node with key
  NODE node_key_init(MY_STRING key);
  
+ Status assign_root(TREE hTree, NODE hNode);
+ 
+ //print tree nodes
+ void print_tree(TREE hTree);
+ 
  //insert node into tree
  Status insert_node(TREE hTree, MY_STRING key);
  
