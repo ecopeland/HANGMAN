@@ -87,59 +87,72 @@ int main(int argc, char * argv[])
 	my_string_destroy(&new_key4); */
 	
 	//set up
-	int i;
-	char guess;
+	//int i;
 	char play = 'Y';
+	//char temp_char;
 	int length = 0;
+	//char guess;
 	int guesses_remaining = 0;
-	TREE hTree = NULL;
-	MY_VECTOR dictionary = NULL;;
-	Boolean valid_entry = FALSE;
-	Boolean used_char = TRUE;
-	Boolean WINNING = FALSE;
+	//TREE hTree = NULL;
+	MY_VECTOR dictionary = NULL;
+        MY_STRING key = NULL;
+        MY_STRING guesses = NULL;
+        NODE temp_node;
+	//Boolean valid_entry = FALSE;
+	//Boolean used_char = TRUE;
+	//Boolean WINNING = FALSE;
 	
 	//initial, win, or lose
 	while(toupper(play) == 'Y'){
 		//prompt the user to play
 		printf("Do you want to play hangman?\n Enter Y or y for Yes: ");
 		scanf("%c", &play);
+		//temp_char = getchar();
 		if(toupper(play) != 'Y'){
 			break;
 		}
 		
 		//prompt user for length
 		while(length <= 0 || length > 29){
-			printf("\nWhat is the length of the word? \n");
+			printf("What is the length of the word? ");
 			scanf("%d", &length);
+			//temp_char = getchar();
+			
 			//initialize vector of words with length
 			dictionary = generate_vector_length(length);
 			if(vector_get_size(dictionary) == 0){
-				printf("Sorry, there are no words of length %d\n", length);
-				printf("Please try again");
+				printf("Sorry, there are no words of length %d!\n", length);
+				printf("Please try again, ");
 				length = 0;
 			}
 		}
 		
 		//initialize key of length
-		MY_STRING key = key_init_default(length);
-		//create temp_node with key
-		NODE temp_node = node_key_init(key);
+		key = key_init_default(length);
+		
+		//create temp_node with key and words
+		temp_node = node_key_init(key);
+                assign_node_words(temp_node, dictionary);
 		
 		//prompt user for number of guesses
+                //****need to make the loop below more forgiving if do not enter a number*******
 		while(guesses_remaining <= 0){
-			printf("How many guesses would you like? \n");
+			printf("How many guesses would you like? ");
 			scanf("%d", &guesses_remaining);
 		}
-
+                
 		//initialize my_string containing guesses
-		MY_STRING guesses = my_string_init_default();
+		guesses = my_string_init_default();
+		
 		//show user key and number of possible words
-		print_tree(temp_node);
+		print_node(temp_node);
+		
 		//show user guesses_remaining
 		printf("Guesses remaining: %d\n", guesses_remaining);
+		
 		//show user guessed characters
 		printf("Guessed characters: %s\n", my_string_c_str(guesses));
-		
+		/*
 		while(guesses_remaining > 0){
 			//prompt user for guess
 			while(valid_entry != TRUE || used_char != FALSE){
@@ -161,16 +174,20 @@ int main(int argc, char * argv[])
 				used_char = FALSE;
 				my_string_push_back(guesses, guess);
 			}
+			
 			//if valid guess and not already used
 			guesses_remaining--;
+			
 			//build tree with all keys from dictionary (generate_key_tree)
 			hTree = generate_key_tree(hTree, key, length, guess);
 			dictionary = generate_vector_words(hTree, key);
+			
 			//check if win
 			if(my_string_compare(key, vector_at(dictionary, 0)) == 0 && vector_get_size(dictionary) == 1){
 				WINNING = TRUE;
 				break;
 			} 
+			
 			//if not win
 			else{
 				print_tree(hTree);
@@ -179,7 +196,7 @@ int main(int argc, char * argv[])
 				//show user guessed characters
 				printf("Guessed characters: %s\n", my_string_c_str(guesses));
 			}
-			tree_destroy(&hTree);
+			node_destroy(&hTree);
 		}
 		
 		//if WON
@@ -191,12 +208,14 @@ int main(int argc, char * argv[])
 		if(WINNING == FALSE){
 			printf("SORRY!\n Because the word was %s, you lose!\n", my_string_c_str(vector_at(dictionary, 0)));
 		}
-			
+		*/	
 		//free memory
-		tree_destroy(&temp_node);
+                //**********valgrind has memory leak issue with line below************
+		node_destroy(&temp_node);
 		vector_destroy(&dictionary);
 		my_string_destroy(&key);
-		my_string_destroy(&guesses);
+		//my_string_destroy(&guesses);
 	}
+        my_string_destroy(&guesses);
 	return 0;
 }

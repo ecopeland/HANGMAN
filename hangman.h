@@ -44,7 +44,9 @@ typedef struct treeNode Node;
  //generate tree node with key
  NODE node_key_init(MY_STRING key);
  
- Status assign_root(TREE hTree, NODE hNode);
+ void assign_node_words(NODE hNode, MY_VECTOR hDictionary);
+ 
+ void assign_tree_root(TREE hTree, NODE hNode);
  
  //print tree nodes
  void print_tree(TREE hTree);
@@ -58,7 +60,10 @@ typedef struct treeNode Node;
  //find largest node in tree
  NODE largest_node(TREE hTree);
  
+ //destroy node
+ void node_destroy(NODE* phNode);
+ 
  //destroy tree
- void tree_destroy(TREE hTree);
+ //void tree_destroy(TREE hTree);
  
  #endif

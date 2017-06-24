@@ -102,14 +102,15 @@
  //generate vector with strings of word length from dictionary
  MY_VECTOR generate_vector_length(int length)
  {
-	//int i;
+	//int count = 0;
 	FILE* fp;
 	fp = fopen("dictionary.txt", "r");
 	MY_STRING hString = my_string_init_default();
-	MY_VECTOR dictionary = vector_init_default();
+	MY_VECTOR hDictionary = vector_init_default();
 	
 	//checks
-	if(dictionary == NULL || hString == NULL || fp == NULL){
+	if(hDictionary == NULL || hString == NULL || fp == NULL){
+		//printf("test");
 		return NULL;
 	}
 	
@@ -124,10 +125,15 @@
 	
 	//push string to vector at array position of string size (word length)
 	while(my_string_extraction(hString, fp)){
+		//printf("test");
 		if(my_string_get_size(hString) == length){
-			vector_push_back(dictionary, hString);
+                        //count++;
+			//printf("%d\n", count);
+			vector_push_back(hDictionary, hString);
 		}
+		//printf("test");
 		if(fgetc(fp) == ' '){
+			//printf("test");
 			continue;
 		}
 	}
@@ -142,7 +148,7 @@
 
 	my_string_destroy(&hString);
 	fclose(fp);
-	return (MY_VECTOR)dictionary;
+	return (MY_VECTOR)hDictionary;
  } 
  
  //generate new vector (copy of largest node vector)
@@ -200,29 +206,38 @@
 	}
  }
  
- Status assign_root(TREE hTree, NODE hNode){
+ void assign_node_words(NODE hNode, MY_VECTOR hDictionary){
+     Node* pNode = (Node*)hNode;
+     if(pNode == NULL || hDictionary == NULL){
+         return;
+     }
+     pNode->words = hDictionary;
+     return;
+ }
+ 
+ void assign_tree_root(TREE hTree, NODE hNode){
 	Tree* pTree = (Tree*)hTree;
 	Node* pNode = (Node*)hNode;
 	if(pTree == NULL || pNode == NULL){
-		return FAILURE;
+		return;
 	}
 	pTree->root = pNode;
-	return SUCCESS;
+	return;
  }
   
  //print tree nodes
- void print_tree(TREE hTree){
-	Node* root = (Node*)hTree;
+ void print_node(NODE hNode){
+	Node* root = (Node*)hNode;
 	if(root == NULL){
 		return;
 	}
 	if(root->left != NULL){
-		print_tree(root->left);
+		print_node(root->left);
 	}
+        printf("%s: %d\n", my_string_c_str(root->key), vector_get_size(root->words));
 	if(root->right != NULL){
-		print_tree(root->right);
+		print_node(root->right);
 	}
-	printf("%s: %d\n", my_string_c_str(root->key), vector_get_size(root->words));
 	return;
  }
 
@@ -351,21 +366,44 @@
 	return largest;
  }
  
- //destroy tree
- void tree_destroy(TREE hTree)
- {
-	Node* root = (Node*) hTree;
-	//check
-	if(root == NULL){
-		return;
-	}
-	tree_destroy((TREE)&(root->left));
-	tree_destroy((TREE)&(root->right));
-	my_string_destroy(root->key);
-	vector_destroy(root->words);
-	tree_destroy((TREE)&(root));
-	free(root);
+ //destroy node
+ void node_destroy(NODE* phNode){
+     Node* pNode = (Node*) *phNode;
+     if(pNode == NULL){
+         return;
+     }
+     node_destroy((NODE*)&(pNode->left));
+     node_destroy((NODE*)&(pNode->right));
+     my_string_destroy(&(pNode->key));
+     //*****************valgrind has issue with line below***************
+     vector_destroy(&(pNode->words));
+     free(pNode);
  }
+ 
+ 
+// //destroy tree
+// void tree_destroy(TREE hTree)
+// {
+//	Tree* pTree= (Tree*) hTree;
+//	//check
+//	if(pTree == NULL){
+//		return;
+//	}
+//	Node* root = pTree->root;
+//	//check
+//	if(root == NULL){
+//		pTree = NULL;
+//		return;
+//	}
+//	tree_destroy((TREE)&(root->left));
+//	tree_destroy((TREE)&(root->right));
+//	tree_destroy((TREE)&(root));
+//	my_string_destroy(root->key);
+//	vector_destroy(root->words);
+//	tree_destroy((TREE)&(root));
+//	free(root);
+//	free(pTree);
+// }
  
  //Precondition: length is possible word length, guess is alphabetical character,
  // and root (hTree) is either NULL or the root of a pre-existing key tree (AVL/BST).
@@ -411,7 +449,7 @@
 		
 		//add node to tree
 		if(!insert_node((TREE)pTree, key)){
-			tree_destroy((TREE)pTree);
+			node_destroy((TREE)pTree);
 			return NULL;
 		}
 		//delete words from dictionary (as add new nodes)
