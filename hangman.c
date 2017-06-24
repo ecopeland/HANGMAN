@@ -375,7 +375,6 @@
      node_destroy((NODE*)&(pNode->left));
      node_destroy((NODE*)&(pNode->right));
      my_string_destroy(&(pNode->key));
-     //*****************valgrind has issue with line below***************
      vector_destroy(&(pNode->words));
      free(pNode);
  }

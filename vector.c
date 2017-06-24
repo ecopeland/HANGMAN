@@ -88,11 +88,13 @@ Status vector_pop_back(MY_VECTOR hVector)
 	return SUCCESS;
 }
 
-void vector_destroy(MY_VECTOR* phVector)
+void vector_destroy(Item* pItem)
 {
-	Vector* pVector = (Vector*) *phVector;
-
-	free(pVector->data);
-	free(pVector);
-	*phVector = NULL;
+	Vector* pVector = (Vector*) *pItem;
+        if(pVector != NULL){
+            free(pVector->data);
+            free(pVector);
+            *pItem = NULL;
+            pItem = NULL;
+        }
 }

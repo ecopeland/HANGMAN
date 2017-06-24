@@ -438,6 +438,6 @@ void my_string_destroy(Item* pItem)
        free(pMy_string->data);
        free(pMy_string);
        *pItem = NULL;
-	   pItem = NULL;
+       pItem = NULL;
     }
 }

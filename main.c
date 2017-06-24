@@ -87,20 +87,20 @@ int main(int argc, char * argv[])
 	my_string_destroy(&new_key4); */
 	
 	//set up
-	//int i;
+	int i;
 	char play = 'Y';
 	//char temp_char;
 	int length = 0;
-	//char guess;
+	char guess;
 	int guesses_remaining = 0;
-	//TREE hTree = NULL;
+	TREE hTree = NULL;
 	MY_VECTOR dictionary = NULL;
         MY_STRING key = NULL;
         MY_STRING guesses = NULL;
         NODE temp_node;
-	//Boolean valid_entry = FALSE;
-	//Boolean used_char = TRUE;
-	//Boolean WINNING = FALSE;
+	Boolean valid_entry = FALSE;
+	Boolean used_char = TRUE;
+	Boolean WINNING = FALSE;
 	
 	//initial, win, or lose
 	while(toupper(play) == 'Y'){
@@ -190,7 +190,7 @@ int main(int argc, char * argv[])
 			
 			//if not win
 			else{
-				print_tree(hTree);
+				print_node(hTree);
 				//show user guesses_remaining
 				printf("Guesses remaining: %d\n", guesses_remaining);
 				//show user guessed characters
@@ -210,12 +210,11 @@ int main(int argc, char * argv[])
 		}
 		*/	
 		//free memory
-                //**********valgrind has memory leak issue with line below************
-		node_destroy(&temp_node);
-		vector_destroy(&dictionary);
 		my_string_destroy(&key);
-		//my_string_destroy(&guesses);
+		my_string_destroy(&guesses);
+                vector_destroy(&dictionary);
+                node_destroy(&temp_node);
 	}
-        my_string_destroy(&guesses);
+        //my_string_destroy(&guesses);
 	return 0;
 }
